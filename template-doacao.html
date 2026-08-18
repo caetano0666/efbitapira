@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Doe para a Escolinha de Futebol Batista de Itapira | Doação pelo PIX</title>
+<meta name="description" content="Faça sua doação pelo PIX para a Escolinha de Futebol Batista de Itapira. Chave PIX pelo CNPJ 53.300.905/0001-43. Qualquer valor faz diferença.">
+<link rel="canonical" href="https://efbitapira.org/doacao/">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#061E38">
+<style>
+/*ESTILO_BASE*/
+
+/* ============================================================
+   PAGINA DE DOACAO
+   usa os mesmos tokens, tipografia e componentes do site
+   ============================================================ */
+.doar{padding-block:clamp(56px,8vw,104px)}
+.doar__in{
+  display:grid;grid-template-columns:1fr;gap:clamp(36px,5vw,64px);
+  align-items:start;
+}
+@media (min-width:940px){
+  .doar__in{grid-template-columns:1.05fr .95fr;gap:clamp(48px,5vw,80px);align-items:center}
+}
+.doar h1{font-size:clamp(30px,4.4vw,54px);line-height:1.06;letter-spacing:-.02em;margin:0 0 22px}
+.doar__lead{
+  font-size:clamp(17px,1.7vw,20px);line-height:1.6;color:#B9CCE0;
+  max-width:46ch;margin:0 0 22px;
+}
+.doar__assina{
+  font-family:"Archivo",sans-serif;font-weight:700;font-size:15px;
+  letter-spacing:.03em;color:var(--azul-vivo);margin:0 0 32px;
+}
+.doar__foto{margin:0;border-radius:var(--r);overflow:hidden;background:var(--azul-escuro)}
+.doar__foto img{display:block;width:100%;height:auto}
+
+/* cartao do PIX */
+.cartao{
+  background:#fff;color:var(--texto);border-radius:var(--r);
+  padding:clamp(26px,3.4vw,40px);
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+}
+.cartao__rot{
+  font-family:"Archivo",sans-serif;font-weight:800;
+  font-size:clamp(19px,2.1vw,24px);line-height:1.2;letter-spacing:-.01em;
+  color:var(--azul-profundo);margin:0 0 24px;text-transform:uppercase;
+}
+.cartao__qr{
+  display:block;width:100%;max-width:280px;height:auto;
+  image-rendering:pixelated;background:#fff;
+  border:1px solid var(--borda);border-radius:var(--r);
+}
+.cartao__lbl{
+  font-family:"Archivo",sans-serif;font-weight:700;font-size:12px;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--texto-suave);
+  margin:26px 0 6px;
+}
+.cartao__chave{
+  font-family:"Archivo",sans-serif;font-weight:700;
+  font-size:clamp(17px,1.9vw,21px);color:var(--azul);margin:0;
+}
+.cartao__titular{
+  font-size:14px;line-height:1.5;color:var(--texto-suave);
+  margin:10px 0 0;max-width:32ch;
+}
+.cartao .btn{margin-top:26px;width:100%;max-width:340px}
+.cartao__nota{
+  font-family:"Archivo",sans-serif;font-weight:600;font-size:13.5px;
+  letter-spacing:.04em;text-transform:uppercase;color:var(--texto-suave);
+  margin:22px 0 0;
+}
+.cartao__aviso{
+  min-height:20px;margin:12px 0 0;font-size:14px;font-weight:600;
+  color:var(--azul);opacity:0;transition:opacity .18s ease;
+}
+.cartao__aviso.on{opacity:1}
+
+@media (max-width:420px){
+  .cartao{padding-inline:20px}
+  .cartao__qr{max-width:100%}
+}
+</style>
+</head>
+<body>
+
+<!--CABECALHO-->
+
+<!--GAVETA-->
+
+<main>
+<section class="sec sec--escuro doar">
+  <div class="wrap doar__in">
+
+    <div class="doar__msg">
+      <p class="rotulo">Faça a diferença</p>
+      <h1>Sua doação<br>transforma<br>o futuro.</h1>
+      <p class="doar__lead">Com o seu apoio, seguimos oferecendo esporte, convivência e formação para crianças e adolescentes de Itapira.</p>
+      <p class="doar__assina">Educando pelo esporte.</p>
+      <figure class="doar__foto" data-slot="menino"><div class="ph"></div></figure>
+    </div>
+
+    <aside class="cartao">
+      <p class="cartao__rot">Faça sua doação<br>pelo PIX</p>
+      <img class="cartao__qr" src="QR_SRC" alt="QR Code para doação pelo PIX à Escolinha de Futebol Batista de Itapira" width="QR_W" height="QR_H" decoding="async">
+      <p class="cartao__lbl">Chave PIX</p>
+      <p class="cartao__chave">CNPJ 53.300.905/0001-43</p>
+      <p class="cartao__titular">Associação Escolinha de Futebol Batista EFB</p>
+      <button type="button" class="btn btn--p" id="copiar" data-chave="53300905000143">Copiar chave PIX</button>
+      <p class="cartao__aviso" id="aviso" role="status" aria-live="polite"></p>
+      <p class="cartao__nota">Qualquer valor faz diferença.</p>
+    </aside>
+
+  </div>
+</section>
+</main>
+
+<!--RODAPE-->
+
+<!--SCRIPT-->
+<script>
+(function(){
+  var b=document.getElementById('copiar');
+  var aviso=document.getElementById('aviso');
+  var rotulo=b.textContent;
+  var t;
+  function ok(){
+    aviso.textContent='Chave PIX copiada';
+    aviso.classList.add('on');
+    b.textContent='Chave copiada';
+    clearTimeout(t);
+    t=setTimeout(function(){ aviso.classList.remove('on'); aviso.textContent=''; b.textContent=rotulo; },2600);
+  }
+  function velho(txt){
+    var a=document.createElement('textarea');
+    a.value=txt; a.setAttribute('readonly',''); a.style.position='fixed'; a.style.opacity='0';
+    document.body.appendChild(a); a.select(); a.setSelectionRange(0,txt.length);
+    var deu=false;
+    try{ deu=document.execCommand('copy'); }catch(e){ deu=false; }
+    document.body.removeChild(a);
+    return deu;
+  }
+  b.addEventListener('click',function(){
+    var chave=b.getAttribute('data-chave');
+    if(navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(chave).then(ok,function(){ if(velho(chave)) ok(); });
+    } else if(velho(chave)){ ok(); }
+  });
+})();
+</script>
+</body>
+</html>

@@ -150,3 +150,52 @@ print(f'arquivo oficial: {out.name}  {out.stat().st_size//1024} KB')
 print('---')
 for slot, (tag, n, arq, size) in comuns.items():
     print(f'  {slot:9s} {arq}  {size[0]}x{size[1]}  {n//1024} KB')
+
+# ============================================================
+# PAGINA DE DOACAO  ->  doacao/index.html
+# reaproveita o mesmo CSS, cabecalho, menu e rodape do site,
+# extraidos do proprio template ja processado. nada e duplicado.
+# ============================================================
+def bloco(txt, ini, fim, inclusive=True):
+    a = txt.index(ini)
+    b = txt.index(fim, a) + (len(fim) if inclusive else 0)
+    return txt[a:b]
+
+estilo_base = bloco(base, '<style>', '</style>')[len('<style>'):-len('</style>')]
+cabecalho   = bloco(base, '<header class="topo"', '</header>')
+gaveta      = bloco(base, '<div class="gaveta"', '</div>\n\n<main>', inclusive=False) + '</div>'
+rodape      = bloco(base, '<footer class="pe">', '</footer>')
+script      = bloco(base, '<script>\n(function(){\n  var topo', '</script>')
+
+# fora da home os ancoras precisam voltar para a raiz
+def raiz(t): return t.replace('href="#', 'href="/#')
+
+qr_bytes = (root/'qr-pix-oficial.png').read_bytes()
+qr_img = Image.open(io.BytesIO(qr_bytes))
+qr_b64 = base64.b64encode(qr_bytes).decode()
+
+# f10.jpg e a fotografia original do menino ajoelhado no campo.
+# o recorte apenas ajusta o enquadramento ao layout e deixa de fora
+# a faixa da direita onde fica a marca do fotografo. a foto nao e alterada.
+foto_menino, tam_menino = recorta("f10.jpg", 1.15, 980, 0.50, 0.25, 74)
+img_menino = (f'<img src="data:image/jpeg;base64,{base64.b64encode(foto_menino).decode()}" '
+              f'alt="Menino da Escolinha de Futebol Batista ajoelhado no gramado durante a partida" '
+              f'width="{tam_menino[0]}" height="{tam_menino[1]}" decoding="async">')
+
+doa = (root/'template-doacao.html').read_text(encoding='utf-8')
+doa = doa.replace('/*ESTILO_BASE*/', estilo_base)
+doa = doa.replace('<!--CABECALHO-->', raiz(cabecalho))
+doa = doa.replace('<!--GAVETA-->', raiz(gaveta))
+doa = doa.replace('<!--RODAPE-->', raiz(rodape))
+doa = doa.replace('<!--SCRIPT-->', script)
+doa = doa.replace('QR_SRC', 'data:image/png;base64,' + qr_b64)
+doa = doa.replace('QR_W', str(qr_img.size[0])).replace('QR_H', str(qr_img.size[1]))
+doa = troca(doa, "menino", img_menino)
+
+destino = root/'doacao'
+destino.mkdir(exist_ok=True)
+(destino/'index.html').write_text(doa, encoding='utf-8')
+print('---')
+print(f'doacao/index.html  {(destino/"index.html").stat().st_size//1024} KB')
+print(f'  foto     f10.jpg  {tam_menino[0]}x{tam_menino[1]}  {len(foto_menino)//1024} KB')
+print(f'  qr       qr-pix-oficial.png  {qr_img.size[0]}x{qr_img.size[1]}  {len(qr_bytes)//1024} KB')
