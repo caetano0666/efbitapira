@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Escolinha de Futebol Batista de Itapira | Multiplicando e Transformando Vidas</title>
+<meta name="description" content="Desde 2017, a Escolinha de Futebol Batista de Itapira usa o esporte para desenvolver crianças e adolescentes. O futebol é o nosso campo. A formação é o nosso propósito.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#061E38">
+<style>
+/*FONTS*/
+
+/* ============================================================
+   BASE
+   ============================================================ */
+:root{
+  --azul-profundo:#061E38;
+  --azul-escuro:#0A2E52;
+  --azul:#0F4C81;
+  --azul-claro:#2079C4;
+  --azul-vivo:#3A93E0;
+  --branco:#FFFFFF;
+  --cinza:#F3F5F8;
+  --cinza-medio:#E4E9F0;
+  --borda:#DDE3EC;
+  --texto:#111820;
+  --texto-suave:#4C5A6B;
+  --max:1240px;
+  --gut:clamp(20px,5vw,64px);
+  --r:4px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{
+  margin:0;
+  background:var(--branco);
+  color:var(--texto);
+  font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:17px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+h1,h2,h3,h4{
+  font-family:"Archivo",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-weight:800;
+  line-height:1.03;
+  letter-spacing:-.022em;
+  margin:0;
+  text-wrap:balance;
+}
+p{margin:0 0 1.15em;text-wrap:pretty}
+p:last-child{margin-bottom:0}
+
+.wrap{width:100%;max-width:var(--max);margin:0 auto;padding-inline:var(--gut)}
+.sec{padding-block:clamp(72px,10vw,132px)}
+.sec--cinza{background:var(--cinza)}
+.sec--escuro{background:var(--azul-profundo);color:#EAF1F8}
+.sec--escuro h2,.sec--escuro h3{color:#fff}
+
+.rotulo{
+  font-family:"Archivo",sans-serif;font-weight:700;font-size:12px;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--azul-claro);
+  display:flex;align-items:center;gap:12px;margin-bottom:22px;
+}
+.rotulo::before{content:"";width:28px;height:2px;background:var(--azul-claro);flex:none}
+.sec--escuro .rotulo{color:var(--azul-vivo)}
+.sec--escuro .rotulo::before{background:var(--azul-vivo)}
+
+.t-xxl{font-size:clamp(38px,7.2vw,80px)}
+.t-xl{font-size:clamp(30px,4.4vw,54px)}
+.t-l{font-size:clamp(25px,3vw,38px)}
+.t-m{font-size:clamp(19px,2vw,23px)}
+.lead{font-size:clamp(18px,1.65vw,21px);line-height:1.6;color:var(--texto-suave)}
+.sec--escuro .lead{color:#B9CCE0}
+.med{max-width:63ch}
+
+/* ============================================================
+   BOTOES
+   ============================================================ */
+.btns{display:flex;flex-wrap:wrap;gap:14px;margin-top:36px}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  min-height:54px;padding:0 30px;border-radius:var(--r);
+  font-family:"Archivo",sans-serif;font-weight:700;font-size:15px;
+  letter-spacing:.03em;text-decoration:none;border:2px solid transparent;
+  transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease;
+  cursor:pointer;text-align:center;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn--p{background:var(--azul-claro);color:#fff;border-color:var(--azul-claro)}
+.btn--p:hover{background:#1868AC;border-color:#1868AC}
+.btn--f{background:transparent;color:#fff;border-color:rgba(255,255,255,.5)}
+.btn--f:hover{background:rgba(255,255,255,.12);border-color:#fff}
+.btn--e{background:transparent;color:var(--azul);border-color:var(--borda)}
+.btn--e:hover{border-color:var(--azul);background:var(--azul);color:#fff}
+.btn:focus-visible,a:focus-visible,button:focus-visible{outline:3px solid var(--azul-vivo);outline-offset:3px}
+
+.link-seta{
+  display:inline-flex;align-items:center;gap:10px;text-decoration:none;
+  font-family:"Archivo",sans-serif;font-weight:700;font-size:15px;letter-spacing:.02em;
+  color:var(--azul);border-bottom:2px solid rgba(15,76,129,.25);padding:11px 0 9px;
+  transition:border-color .18s ease,gap .18s ease;
+}
+.link-seta:hover{border-color:var(--azul);gap:16px}
+.link-seta svg{flex:none}
+.sec--escuro .link-seta{color:#fff;border-color:rgba(255,255,255,.35)}
+.sec--escuro .link-seta:hover{border-color:#fff}
+
+/* ============================================================
+   TEXTURA DE CAMPO
+   ============================================================ */
+.campo{position:absolute;inset:0;pointer-events:none;opacity:.075;overflow:hidden}
+.campo svg{width:100%;height:100%;display:block}
+
+/* ============================================================
+   FOTOS E PLACEHOLDERS
+   ============================================================ */
+.foto{position:relative;margin:0;overflow:hidden;background:var(--azul-escuro);border-radius:var(--r)}
+.foto img{width:100%;height:100%;object-fit:cover;display:block}
+.foto--r43{aspect-ratio:4/3}
+.foto--r169{aspect-ratio:16/9}
+.foto--r32{aspect-ratio:3/2}
+.foto--r45{aspect-ratio:4/5}
+.foto--r11{aspect-ratio:1/1}
+
+.ph{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:14px;text-align:center;
+  padding:26px;background:
+    repeating-linear-gradient(115deg,rgba(255,255,255,.035) 0 2px,transparent 2px 84px),
+    linear-gradient(150deg,#0A2E52 0%,#061E38 100%);
+  color:#fff;
+}
+.ph__tag{
+  font-family:"Archivo",sans-serif;font-weight:700;font-size:10.5px;letter-spacing:.2em;
+  text-transform:uppercase;color:#8FBEEA;border:1px solid rgba(143,190,234,.45);
+  padding:7px 14px;border-radius:100px;
+}
+.ph__txt{font-size:14.5px;line-height:1.5;color:rgba(255,255,255,.78);max-width:30ch;margin:0}
+.ph__ico{opacity:.35}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.topo{
+  position:fixed;top:0;left:0;right:0;z-index:90;
+  transition:background .25s ease,box-shadow .25s ease,border-color .25s ease;
+  border-bottom:1px solid transparent;
+  padding-top:env(safe-area-inset-top);
+}
+.topo__in{display:flex;align-items:center;justify-content:space-between;gap:20px;height:78px}
+.marca__n{white-space:nowrap}
+:target{scroll-margin-top:120px}
+section[id]{scroll-margin-top:96px}
+.topo.fixo{background:rgba(6,30,56,.97);backdrop-filter:blur(10px);border-bottom-color:rgba(255,255,255,.1)}
+.marca{display:flex;align-items:center;gap:14px;text-decoration:none;color:#fff;flex:none}
+.logo-of{background:url(LOGO_SRC) center/contain no-repeat;flex:none;display:block}
+.marca__logo{width:48px;height:48px}
+@media (max-width:600px){.marca__logo{width:44px;height:44px}}
+.marca__txt{display:flex;flex-direction:column;line-height:1.1}
+.marca__n{font-family:"Archivo",sans-serif;font-weight:800;font-size:15.5px;letter-spacing:-.01em}
+.marca__s{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.62);font-weight:500}
+
+.nav{display:flex;align-items:center;gap:30px}
+.nav a{
+  text-decoration:none;color:rgba(255,255,255,.86);font-size:14.5px;font-weight:500;
+  padding:6px 0;border-bottom:2px solid transparent;transition:color .16s,border-color .16s;
+}
+.nav a:hover{color:#fff;border-bottom-color:var(--azul-vivo)}
+.topo .btn{min-height:44px;padding:0 22px;font-size:13.5px}
+.menu-btn{display:none;background:none;border:0;padding:10px;color:#fff;cursor:pointer}
+.menu-btn svg{display:block}
+
+@media (max-width:1000px){
+  .nav-desk{display:none}
+  .menu-btn{display:block}
+  .topo{background:rgba(6,30,56,.97);backdrop-filter:blur(10px)}
+}
+.gaveta{
+  position:fixed;inset:0;z-index:95;background:var(--azul-profundo);
+  display:flex;flex-direction:column;justify-content:center;gap:6px;
+  padding:80px var(--gut) 40px;
+  transform:translateY(-100%);transition:transform .3s cubic-bezier(.4,0,.2,1);
+  overflow-y:auto;
+}
+.gaveta.on{transform:translateY(0)}
+.gaveta a{
+  text-decoration:none;color:#fff;font-family:"Archivo",sans-serif;font-weight:700;
+  font-size:clamp(24px,7vw,34px);padding:12px 0;border-bottom:1px solid rgba(255,255,255,.1);
+}
+.gaveta .btn{margin-top:26px;align-self:flex-start;border-bottom:0}
+.fechar{position:absolute;top:calc(20px + env(safe-area-inset-top));right:var(--gut);background:none;border:0;color:#fff;padding:12px;cursor:pointer}
+
+/* ============================================================
+   1. HERO
+   ============================================================ */
+.hero{position:relative;min-height:min(94vh,900px);display:flex;align-items:flex-end;background:var(--azul-profundo);overflow:hidden}
+.hero__foto{position:absolute;inset:0}
+.hero__foto picture{display:block;width:100%;height:100%}
+.hero__foto img{width:100%;height:100%;object-fit:cover;object-position:center 32%}
+.hero__ph{position:absolute;inset:0;justify-content:flex-start;align-items:flex-end;padding:clamp(120px,15vw,168px) var(--gut) 0}
+.hero__ph .ph__ico{display:none}
+.hero__ph .ph__txt{text-align:right;font-size:13px;color:rgba(255,255,255,.55)}
+@media (max-width:700px){.hero__ph{align-items:center;padding-top:104px}.hero__ph .ph__txt{display:none}}
+.hero__veu{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(6,30,56,.96) 0%,rgba(6,30,56,.82) 34%,rgba(6,30,56,.42) 66%,rgba(6,30,56,.55) 100%);
+}
+@media (min-width:900px){
+  .hero__veu{
+    background:
+      linear-gradient(to right,rgba(6,30,56,.95) 0%,rgba(6,30,56,.88) 34%,rgba(6,30,56,.34) 62%,rgba(6,30,56,.18) 100%),
+      linear-gradient(to top,rgba(6,30,56,.9) 0%,rgba(6,30,56,.55) 40%,rgba(6,30,56,.3) 70%,rgba(6,30,56,.6) 100%);
+  }
+}
+.hero__in{position:relative;z-index:2;width:100%;padding-block:clamp(56px,9vw,104px) clamp(48px,7vw,86px);padding-top:140px}
+.hero h1{
+  color:#fff;font-size:clamp(40px,8.2vw,92px);line-height:.98;letter-spacing:-.03em;
+  max-width:16ch;text-transform:none;
+}
+.hero__sub{
+  font-family:"Archivo",sans-serif;font-weight:700;color:var(--azul-vivo);
+  font-size:clamp(17px,2.4vw,26px);letter-spacing:-.01em;margin-top:22px;max-width:26ch;line-height:1.25;
+}
+.hero__apoio{color:rgba(255,255,255,.85);font-size:clamp(15.5px,1.45vw,18px);max-width:58ch;margin-top:24px;line-height:1.6}
+.hero__base{
+  position:absolute;bottom:0;left:0;right:0;height:5px;
+  background:linear-gradient(90deg,var(--azul-claro),var(--azul-vivo),var(--azul-claro));
+}
+
+/* ============================================================
+   2. MUITO ALEM DO FUTEBOL
+   ============================================================ */
+.alem__topo{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(32px,6vw,88px);align-items:start}
+.pilares{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+  margin-top:clamp(52px,7vw,84px);border-top:2px solid var(--texto);
+}
+.pilar{padding:30px 26px 8px 0;border-right:1px solid var(--borda)}
+.pilar:last-child{border-right:0;padding-right:0}
+.pilar h3{
+  font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--azul);
+  font-weight:800;margin-bottom:12px;
+}
+.pilar p{font-size:15.5px;color:var(--texto-suave);line-height:1.5}
+.faixa{margin:clamp(36px,5vw,56px) 0 0}
+.legenda{margin-top:14px;font-size:13.5px;line-height:1.5;color:var(--texto-suave);max-width:82ch}
+
+/* ============================================================
+   3. NOSSA HISTORIA
+   ============================================================ */
+.hist{display:grid;grid-template-columns:.88fr 1.12fr;column-gap:clamp(32px,6vw,80px);row-gap:30px;align-items:start}
+.hist .foto{grid-column:1;grid-row:1}
+.hist .fala{grid-column:1;grid-row:2}
+.hist__txt{grid-column:2;grid-row:1/3;align-self:center}
+.fala{margin:0;padding-top:24px;border-top:2px solid var(--borda)}
+.fala p{
+  font-family:"Archivo",sans-serif;font-weight:600;font-size:clamp(15.5px,1.3vw,17.5px);
+  line-height:1.5;letter-spacing:-.01em;color:var(--texto);margin:0 0 14px;text-wrap:pretty;
+}
+.fala cite{font-style:normal;display:block;font-size:13px;line-height:1.5;color:var(--texto-suave)}
+.hist__ano{
+  font-family:"Archivo",sans-serif;font-weight:800;font-size:clamp(66px,10vw,124px);
+  line-height:.85;color:var(--azul-claro);letter-spacing:-.045em;margin-bottom:6px;
+}
+.hist__ano span{display:block;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--texto-suave);margin-bottom:14px;font-weight:700}
+
+/* ============================================================
+   4. FUTEBOL DE VERDADE
+   ============================================================ */
+.verdade{position:relative;overflow:hidden}
+.verdade__grid{display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(32px,6vw,80px);align-items:stretch;position:relative;z-index:2}
+.verdade__grid>div{align-self:center}
+.verdade__grid .foto{aspect-ratio:auto;height:100%;min-height:420px}
+.verdade h2 span{display:block}
+
+/* ============================================================
+   5. IMPACTO
+   ============================================================ */
+.impacto{position:relative;background:var(--branco)}
+.impacto__in{position:relative;z-index:2;max-width:900px;margin:0 auto;text-align:center}
+.impacto h2{margin-bottom:36px}
+.impacto p{font-size:clamp(17.5px,1.8vw,21px);line-height:1.7;color:var(--texto-suave)}
+.impacto__campo{position:absolute;inset:0;opacity:.05;pointer-events:none;display:grid;place-items:center;overflow:hidden}
+.impacto__campo svg{width:min(1000px,100%);max-width:100%;height:auto}
+
+/* ============================================================
+   6. GALERIA
+   ============================================================ */
+.gal{
+  display:grid;grid-template-columns:repeat(6,1fr);
+  grid-auto-rows:clamp(96px,13vw,150px);gap:clamp(10px,1.3vw,18px);
+  margin-top:clamp(40px,5vw,60px);
+}
+.gal .foto{border-radius:var(--r);height:100%;aspect-ratio:auto}
+.g1{grid-column:span 4;grid-row:span 3}
+.g2{grid-column:span 2;grid-row:span 2}
+.g3{grid-column:span 2;grid-row:span 1}
+.g4{grid-column:span 2;grid-row:span 2}
+.g5{grid-column:span 2;grid-row:span 2}
+.g6{grid-column:span 2;grid-row:span 2}
+
+/* ============================================================
+   7. PARCEIROS
+   ============================================================ */
+.logos{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:clamp(12px,1.4vw,20px);margin-top:clamp(40px,5vw,58px);max-width:900px;
+}
+.logo-slot{aspect-ratio:16/7;border-radius:var(--r);background:rgba(15,76,129,.05)}
+
+/* ============================================================
+   8. FACA PARTE
+   ============================================================ */
+.pratico{
+  margin-top:clamp(34px,4vw,44px);padding-left:18px;border-left:3px solid var(--azul-vivo);
+  max-width:60ch;
+}
+.pratico p{font-size:clamp(17px,1.6vw,19.5px);line-height:1.6;color:#CBDCEC;margin-bottom:.5em}
+.pratico p:last-child{margin-bottom:0}
+.pratico strong{color:#fff;font-weight:600}
+.caminhos{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,1.6vw,22px);margin-top:clamp(34px,4vw,46px)}
+.caminho{
+  background:#fff;border:1px solid rgba(255,255,255,.14);border-radius:var(--r);
+  padding:clamp(28px,3vw,40px);display:flex;flex-direction:column;gap:14px;
+  background:rgba(255,255,255,.045);transition:background .2s ease,transform .2s ease;
+}
+.caminho:hover{background:rgba(255,255,255,.09);transform:translateY(-3px)}
+.caminho__n{
+  font-family:"Archivo",sans-serif;font-weight:800;font-size:13px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--azul-vivo);
+}
+.caminho h3{font-size:clamp(19px,1.9vw,23px);line-height:1.15}
+.caminho p{font-size:15.5px;color:#AFC5DA;line-height:1.55;margin:0}
+.caminho a{margin-top:auto;padding-top:10px}
+
+/* ============================================================
+   9. INSTAGRAM
+   ============================================================ */
+.insta{background:var(--cinza)}
+.insta__in{display:grid;grid-template-columns:1fr auto;gap:clamp(28px,5vw,60px);align-items:center}
+.insta__arroba{
+  font-family:"Archivo",sans-serif;font-weight:800;font-size:clamp(20px,2.6vw,30px);
+  color:var(--azul);letter-spacing:-.02em;margin-top:18px;display:block;text-decoration:none;
+}
+.insta__arroba:hover{color:var(--azul-claro)}
+
+/* ============================================================
+   10. RODAPE
+   ============================================================ */
+.pe{background:var(--azul-profundo);color:#fff;padding-block:clamp(56px,7vw,84px) 0}
+.pe__in{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:clamp(28px,5vw,60px);align-items:start}
+.pe__logo{width:72px;height:72px;margin-bottom:22px}
+.pe h3{font-size:clamp(22px,2.4vw,29px);line-height:1.15;margin-bottom:12px}
+.pe__frase{color:var(--azul-vivo);font-family:"Archivo",sans-serif;font-weight:700;font-size:15px}
+.pe__juridico{margin-top:26px;font-size:14px;line-height:1.6;color:rgba(255,255,255,.62)}
+.pe__tit{
+  font-family:"Archivo",sans-serif;font-weight:700;font-size:11.5px;letter-spacing:.2em;
+  text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:16px;
+}
+.pe ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px}
+.pe ul a{text-decoration:none;color:rgba(255,255,255,.86);font-size:15.5px}
+.pe ul a:hover{color:var(--azul-vivo)}
+.pe__local{color:rgba(255,255,255,.86);font-size:15.5px;line-height:1.55}
+.pe__local a{text-decoration:none;display:inline-block;padding:11px 0;min-height:44px}
+.pe__local a:hover{color:var(--azul-vivo)}
+.pe__fim{
+  margin-top:clamp(30px,3.6vw,40px);border-top:1px solid rgba(255,255,255,.08);
+  padding-block:24px 30px;display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between;
+  font-size:12.5px;color:rgba(255,255,255,.42);line-height:1.5;
+}
+
+/* assinatura de colaboracao */
+.colab{
+  margin-top:clamp(44px,6vw,66px);border-top:1px solid rgba(255,255,255,.12);
+  padding-top:clamp(28px,3.4vw,38px);
+}
+.colab__tit{
+  font-family:"Archivo",sans-serif;font-weight:700;font-size:11.5px;letter-spacing:.2em;
+  text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:22px;
+}
+.colab__marcas{display:flex;flex-wrap:wrap;gap:clamp(34px,5vw,72px)}
+.colab__item{display:flex;flex-direction:column}
+.colab__marca{height:64px;display:flex;align-items:center}
+.colab__marca img{display:block;width:auto}
+.colab__creative{height:64px}
+.colab__iaieu{height:25px}
+.colab__papel{margin-top:13px;font-size:13px;line-height:1.45;color:rgba(255,255,255,.55)}
+
+/* ============================================================
+   AVISO V1
+   ============================================================ */
+.aviso{background:#FFF4D6;border-bottom:1px solid #F0DFA8;color:#5B4405;font-size:12.5px;line-height:1.45}
+.aviso .wrap{padding-block:8px;display:flex;gap:10px;align-items:baseline}
+.aviso b{font-family:"Archivo",sans-serif;letter-spacing:.1em;text-transform:uppercase;font-size:10.5px;flex:none}
+@media (max-width:600px){.aviso{font-size:11.5px}.aviso .wrap{flex-direction:column;gap:2px;padding-block:7px}}
+
+/* ============================================================
+   RESPONSIVO
+   ============================================================ */
+@media (max-width:960px){
+  .alem__topo{grid-template-columns:1fr;gap:26px}
+  .pilares{grid-template-columns:repeat(2,1fr);border-top:0}
+  .pilar{border-top:2px solid var(--texto);border-right:0;padding:22px 20px 18px 0}
+  .pilar:nth-child(even){padding-right:0}
+  .hist,.verdade__grid,.insta__in{grid-template-columns:1fr;gap:34px}
+  .hist{row-gap:26px}
+  .hist>*{grid-column:1;grid-row:auto}
+  .verdade__grid .foto{aspect-ratio:4/3;height:auto;min-height:0}
+  .caminhos{grid-template-columns:1fr}
+  .logos{grid-template-columns:repeat(2,1fr)}
+  .pe__in{grid-template-columns:1fr 1fr}
+  .pe__in>div:first-child{grid-column:1/-1}
+  .gal{grid-template-columns:repeat(4,1fr);grid-auto-rows:clamp(88px,16vw,130px)}
+  .g1{grid-column:span 4;grid-row:span 3}
+  .g2,.g3,.g4,.g5,.g6{grid-column:span 2;grid-row:span 2}
+  .insta__in .btns{margin-top:8px}
+}
+@media (max-width:600px){
+  body{font-size:16.5px}
+  .hero{min-height:auto}
+  .hero__in{padding-top:158px;padding-bottom:52px}
+  .hero h1{max-width:12ch}
+  .btns{gap:11px}
+  .btn{width:100%;padding:0 20px}
+  .topo .btn,.gaveta .btn{width:auto}
+  .pilares{grid-template-columns:1fr}
+  .pilar{padding-right:0}
+  .gal{grid-template-columns:repeat(2,1fr);grid-auto-rows:clamp(104px,26vw,150px)}
+  .g1{grid-column:span 2;grid-row:span 3}
+  .g2,.g3,.g4,.g5{grid-column:span 1;grid-row:span 2}
+  .g6{grid-column:span 2;grid-row:span 2}
+  .pe__in{grid-template-columns:1fr;gap:34px}
+  .pe__in>div:first-child{grid-column:auto}
+  .pe__fim{flex-direction:column;gap:8px}
+  .colab__marcas{flex-direction:column;gap:30px}
+  .colab__marca{height:auto}
+  /* area de toque de 44px nos links do rodape, sem mudar texto nem aparencia */
+  .pe ul{gap:0}
+  .pe ul a{display:inline-flex;align-items:center;min-height:44px}
+  .impacto__in{text-align:left}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="topo" id="topo">
+  <div class="wrap topo__in">
+    <a href="#hero" class="marca" aria-label="Escolinha de Futebol Batista de Itapira, início">
+      <span class="logo-of marca__logo" aria-hidden="true"></span>
+      <span class="marca__txt">
+        <span class="marca__n">Escolinha de Futebol Batista</span>
+        <span class="marca__s">Itapira · SP</span>
+      </span>
+    </a>
+    <nav class="nav nav-desk" aria-label="Navegação principal">
+      <a href="#alem">A Escolinha</a>
+      <a href="#historia">História</a>
+      <a href="#conquistas">Conquistas</a>
+      <a href="#galeria">Galeria</a>
+      <a href="#parceiros">Parceiros</a>
+      <a href="#fazer-parte" class="btn btn--p">Quero apoiar</a>
+    </nav>
+    <button class="menu-btn" id="abrir" aria-label="Abrir menu" aria-expanded="false" aria-controls="gaveta">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="gaveta" id="gaveta" aria-hidden="true">
+  <button class="fechar" id="fechar" aria-label="Fechar menu">
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+  </button>
+  <a href="#alem">A Escolinha</a>
+  <a href="#historia">História</a>
+  <a href="#conquistas">Conquistas</a>
+  <a href="#galeria">Galeria</a>
+  <a href="#parceiros">Parceiros</a>
+  <a href="#fazer-parte">Faça parte</a>
+  <a href="#fazer-parte" class="btn btn--p">Quero apoiar</a>
+</div>
+
+<main>
+
+<!-- ============ 1. HERO ============ -->
+<section class="hero" id="hero">
+  <div class="hero__foto" data-slot="hero" data-fonte="Acervo da Escolinha de Futebol Batista (Divulgação)">
+    <div class="ph hero__ph">
+      <svg class="ph__ico" width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.4"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><circle cx="8.5" cy="10" r="1.8"/><path d="m3 17 5.2-4.6 4 3.4 3.6-3 5.2 4.6"/></svg>
+      <span class="ph__tag">Foto pendente · Hero</span>
+      <p class="ph__txt">Criança em movimento, disputa de bola. Enquadramento horizontal, sem pose. Não usar foto de time posando.</p>
+    </div>
+  </div>
+  <div class="hero__veu"></div>
+  <div class="wrap hero__in">
+    <h1>Multiplicando e Transformando Vidas</h1>
+    <p class="hero__sub">O futebol é o nosso campo. A formação é o nosso propósito.</p>
+    <p class="hero__apoio">A Escolinha de Futebol Batista de Itapira usa o esporte para desenvolver crianças e adolescentes, criando um ambiente de disciplina, respeito, convivência, aprendizado e oportunidades.</p>
+    <div class="btns">
+      <a href="#alem" class="btn btn--p">Conheça nosso trabalho</a>
+      <a href="#fazer-parte" class="btn btn--f">Quero apoiar</a>
+    </div>
+  </div>
+  <div class="hero__base" aria-hidden="true"></div>
+</section>
+
+<!-- ============ 2. MUITO ALEM DO FUTEBOL ============ -->
+<section class="sec" id="alem">
+  <div class="wrap">
+    <div class="alem__topo">
+      <div>
+        <p class="rotulo">Muito além do futebol</p>
+        <h2 class="t-xl">Formar jogadores é importante. Formar pessoas é ainda maior.</h2>
+      </div>
+      <div class="lead med">
+        <p>Dentro de campo, cada treino ensina técnica, disciplina, trabalho em equipe e responsabilidade.</p>
+        <p>Fora dele, ficam valores que acompanham cada criança por toda a vida.</p>
+      </div>
+    </div>
+
+    <div class="pilares">
+      <div class="pilar"><h3>Esporte</h3><p>Treinamento, desenvolvimento e competição.</p></div>
+      <div class="pilar"><h3>Disciplina</h3><p>Compromisso, responsabilidade e constância.</p></div>
+      <div class="pilar"><h3>Valores</h3><p>Respeito, caráter e convivência.</p></div>
+      <div class="pilar"><h3>Família</h3><p>Pais e familiares fazendo parte dessa caminhada.</p></div>
+    </div>
+
+    <figure class="faixa">
+      <div class="foto foto--r32" data-slot="treino" data-fonte="Acervo da Escolinha de Futebol Batista (Divulgação)">
+      <div class="ph">
+        <svg class="ph__ico" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.4"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><circle cx="8.5" cy="10" r="1.8"/><path d="m3 17 5.2-4.6 4 3.4 3.6-3 5.2 4.6"/></svg>
+        <span class="ph__tag">Foto pendente · Treino</span>
+        <p class="ph__txt">Treinador falando com os atletas, ou preparação antes do jogo. Horizontal, larga.</p>
+        </div>
+      </div>
+      <figcaption class="legenda">Julho de 2026. William Maia reconheceu publicamente o trabalho das mães dos jogadores e dos professores da Escolinha durante a participação na Copa Antônio Corsi.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 3. NOSSA HISTORIA ============ -->
+<section class="sec sec--cinza" id="historia">
+  <div class="wrap hist">
+    <figure class="foto foto--r45" data-slot="historia" data-fonte="Acervo da Escolinha de Futebol Batista (Divulgação)">
+      <div class="ph">
+        <svg class="ph__ico" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.4"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><circle cx="8.5" cy="10" r="1.8"/><path d="m3 17 5.2-4.6 4 3.4 3.6-3 5.2 4.6"/></svg>
+        <span class="ph__tag">Foto pendente · História</span>
+        <p class="ph__txt">Bastidor, convivência, equipe reunida. Enquadramento vertical.</p>
+      </div>
+    </figure>
+    <blockquote class="fala">
+      <p>“É um trabalho sério, que visa muito mais que futebol. Visa ensinar princípios e valores… Mas vamos fazendo a nossa parte, multiplicando e transformando vidas.”</p>
+      <cite>William Maia da Silva, ao Itapira News em julho de 2025.</cite>
+    </blockquote>
+    <div class="hist__txt">
+      <p class="rotulo">Nossa história</p>
+      <div class="hist__ano"><span>desde</span>2017</div>
+      <h2 class="t-l" style="margin-top:26px">Uma história construída dentro e fora de campo</h2>
+      <div class="lead" style="margin-top:24px">
+        <p>Desde 12 de março de 2017, a Escolinha de Futebol Batista vem construindo uma história que vai muito além dos resultados esportivos.</p>
+        <p>O futebol aproxima. O treinamento desenvolve. A competição desafia.</p>
+        <p>Mas cada criança que entra em campo representa algo maior: a oportunidade de aprender, crescer, conviver e descobrir até onde pode chegar.</p>
+        <p>O esporte também é o caminho pelo qual a Escolinha ensina a Palavra de Deus às crianças e adolescentes.</p>
+        <p>É assim que a Escolinha segue multiplicando e transformando vidas.</p>
+      </div>
+      <p style="margin-top:34px">
+        <a href="#galeria" class="link-seta">Veja a Escolinha por dentro
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M12 5l7 7-7 7"/></svg>
+        </a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. FUTEBOL DE VERDADE ============ -->
+<section class="sec sec--escuro verdade" id="conquistas">
+  <div class="campo" aria-hidden="true">
+    <svg viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" fill="none" stroke="#fff" stroke-width="2">
+      <circle cx="264" cy="300" r="188"/><circle cx="264" cy="300" r="96"/>
+    </svg>
+  </div>
+  <div class="wrap verdade__grid">
+    <div>
+      <p class="rotulo">Futebol de verdade</p>
+      <h2 class="t-xl"><span>Treinar.</span><span>Competir.</span><span>Evoluir.</span></h2>
+      <div class="lead" style="margin-top:28px">
+        <p>A Escolinha participa regularmente de campeonatos de futebol de base em Itapira e em outras cidades da região.</p>
+        <p>Suas equipes competem em diferentes categorias, enfrentando clubes, escolas e projetos esportivos e acumulando títulos, finais e experiências que fazem parte da formação dos atletas.</p>
+        <p style="color:#fff;font-weight:500">Mais importante que cada troféu é o caminho até ele.</p>
+        <p>Preparação. Trabalho coletivo. Respeito pelo adversário. Aprender a ganhar. Aprender a perder. E voltar para o próximo treino querendo evoluir.</p>
+      </div>
+      <p style="margin-top:34px">
+        <a href="https://www.instagram.com/escolinha_futebolbatista/" target="_blank" rel="noopener" class="link-seta">Acompanhe as conquistas no Instagram
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M12 5l7 7-7 7"/></svg>
+        </a>
+      </p>
+    </div>
+    <figure class="foto foto--r43" data-slot="trofeu" data-fonte="Acervo da Escolinha de Futebol Batista (Divulgação)">
+      <div class="ph">
+        <svg class="ph__ico" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.4"><path d="M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M17 5h2.5a2.5 2.5 0 0 1 0 5H17M7 5H4.5a2.5 2.5 0 0 0 0 5H7M12 14v3M8.5 20h7"/></svg>
+        <span class="ph__tag">Foto pendente · Prova</span>
+        <p class="ph__txt">Equipe reunida com troféu, ou imagem forte de competição. Esta é a prova visual da seção.</p>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 5. IMPACTO ============ -->
+<section class="sec impacto">
+  <div class="impacto__campo" aria-hidden="true">
+    <svg viewBox="0 0 600 600" fill="none" stroke="#0F4C81" stroke-width="3"><circle cx="300" cy="300" r="240"/><circle cx="300" cy="300" r="150"/><path d="M300 60v480M60 300h480"/></svg>
+  </div>
+  <div class="wrap impacto__in">
+    <p class="rotulo" style="justify-content:center">Impacto</p>
+    <h2 class="t-xl">O resultado aparece no campo. A transformação continua fora dele.</h2>
+    <div>
+      <p>Uma escolinha pode ensinar uma criança a jogar futebol.</p>
+      <p>Um projeto pode ajudá-la a enxergar novas possibilidades.</p>
+      <p>Por isso, a Batista procura criar experiências que aproximem esporte, educação, família e comunidade.</p>
+      <p>Cada treino, campeonato, viagem, encontro e oportunidade passa a fazer parte de uma história muito maior do que os noventa minutos de uma partida.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6. GALERIA ============ -->
+<section class="sec sec--cinza" id="galeria">
+  <div class="wrap">
+    <p class="rotulo">Galeria</p>
+    <h2 class="t-xl" style="max-width:18ch">É aqui que tudo acontece.</h2>
+    <p class="lead" style="margin-top:22px;max-width:52ch">Treinos. Jogos. Viagens. Conquistas. Famílias. Amizades.</p>
+
+    <div class="gal">
+      <figure class="foto g1" data-slot="gal1" data-fonte="Acervo da Escolinha de Futebol Batista (Divulgação)"><div class="ph"><span class="ph__tag">Foto pendente</span><p class="ph__txt">Imagem principal da galeria. Jogo em movimento.</p></div></figure>
+      <figure class="foto g2" data-slot="gal2" data-fonte="Acervo da Escolinha de Futebol Batista (Divulgação)"><div class="ph"><span class="ph__tag">Foto pendente</span><p class="ph__txt">Comemoração</p></div></figure>
+      <figure class="foto g3" data-slot="gal3" data-fonte="Acervo da Escolinha de Futebol Batista (Divulgação)"><div class="ph"><span class="ph__tag">Foto pendente</span><p class="ph__txt">Medalhas e troféus</p></div></figure>
+      <figure class="foto g4" data-slot="gal4" data-fonte="Acervo da Escolinha de Futebol Batista (Divulgação)"><div class="ph"><span class="ph__tag">Foto pendente</span><p class="ph__txt">Famílias</p></div></figure>
+      <figure class="foto g5" data-slot="gal5" data-fonte="Acervo da Escolinha de Futebol Batista (Divulgação)"><div class="ph"><span class="ph__tag">Foto pendente</span><p class="ph__txt">Bastidores e viagem</p></div></figure>
+      <figure class="foto g6" data-slot="gal6" data-fonte="Acervo da Escolinha de Futebol Batista (Divulgação)"><div class="ph"><span class="ph__tag">Foto pendente</span><p class="ph__txt">Convivência</p></div></figure>
+    </div>
+
+    <div class="btns">
+      <a href="https://www.instagram.com/escolinha_futebolbatista/" target="_blank" rel="noopener" class="btn btn--e">Ver mais no Instagram</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7. PARCEIROS ============ -->
+<section class="sec" id="parceiros">
+  <div class="wrap">
+    <div class="alem__topo">
+      <div>
+        <p class="rotulo">Parceiros</p>
+        <h2 class="t-xl">Ninguém transforma vidas sozinho.</h2>
+      </div>
+      <div class="lead med">
+        <p>Empresas, instituições, famílias, profissionais e pessoas que acreditam no projeto ajudam a Escolinha de Futebol Batista a continuar abrindo oportunidades para crianças e adolescentes.</p>
+        <p>Mais do que colocar uma marca ao lado da nossa, ser parceiro significa fazer parte dessa história.</p>
+      </div>
+    </div>
+
+    <div class="logos" aria-label="Espaço reservado para as marcas dos parceiros">
+      <div class="logo-slot"></div>
+      <div class="logo-slot"></div>
+      <div class="logo-slot"></div>
+      <div class="logo-slot"></div>
+    </div>
+
+    <div class="btns">
+      <a href="#fazer-parte" class="btn btn--p">Quero ser parceiro</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8. FACA PARTE ============ -->
+<section class="sec sec--escuro" id="fazer-parte">
+  <div class="wrap">
+    <p class="rotulo">Faça parte</p>
+    <h2 class="t-xl" style="max-width:22ch">Há mais de uma maneira de entrar em campo com a gente.</h2>
+
+    <div class="pratico">
+      <p><strong>Para crianças e adolescentes de 4 a 17 anos.</strong></p>
+      <p>Os treinos acontecem aos sábados, das 7h às 12h, no Campo José Sechhi, em Itapira. A participação é gratuita. Hoje temos vagas.</p>
+    </div>
+
+    <div class="caminhos">
+      <div class="caminho">
+        <h3>Quero matricular meu filho</h3>
+        <p>A matrícula começa por uma conversa no WhatsApp. O William explica como funciona e envia as informações e os documentos necessários.</p>
+        <a href="https://wa.me/5519995059040" target="_blank" rel="noopener" class="link-seta">Falar no WhatsApp
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+      <div class="caminho">
+        <h3>Quero apoiar</h3>
+        <p>Os treinos são gratuitos. Pais, empresas e apoiadores contribuem de forma voluntária para manter o trabalho. A contribuição nunca é condição para a criança participar.</p>
+        <a href="https://wa.me/5519995059040" target="_blank" rel="noopener" class="link-seta">Quero contribuir
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+      <div class="caminho">
+        <h3>Quero ser parceiro</h3>
+        <p>Para empresas e organizações que querem construir algo junto com a Escolinha.</p>
+        <a href="https://wa.me/5519995059040" target="_blank" rel="noopener" class="link-seta">Quero conversar sobre parceria
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="btns">
+      <a href="https://wa.me/5519995059040" target="_blank" rel="noopener" class="btn btn--p">Falar no WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 9. INSTAGRAM ============ -->
+<section class="sec insta">
+  <div class="wrap insta__in">
+    <div>
+      <p class="rotulo">Instagram</p>
+      <h2 class="t-l">Acompanhe nosso dia a dia</h2>
+      <p class="lead" style="margin-top:20px;max-width:54ch">Os treinos, campeonatos, viagens, conquistas e principalmente as pessoas que fazem essa história acontecer.</p>
+      <a href="https://www.instagram.com/escolinha_futebolbatista/" target="_blank" rel="noopener" class="insta__arroba">@escolinha_futebolbatista</a>
+    </div>
+    <div class="btns" style="margin-top:0">
+      <a href="https://www.instagram.com/escolinha_futebolbatista/" target="_blank" rel="noopener" class="btn btn--p">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="2.5" width="19" height="19" rx="5.4"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.2" fill="currentColor" stroke="none"/></svg>
+        Acompanhar no Instagram
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ 10. RODAPE ============ -->
+<footer class="pe">
+  <div class="wrap">
+    <div class="pe__in">
+      <div>
+        <span class="logo-of pe__logo" aria-hidden="true"></span>
+        <h3>Escolinha de Futebol Batista de Itapira</h3>
+        <p class="pe__frase">Multiplicando e Transformando Vidas.</p>
+        <p class="pe__juridico">Associação Escolinha de Futebol Batista EFB<br>
+        CNPJ 53.300.905/0001-43<br>
+        Organização da Sociedade Civil</p>
+      </div>
+      <div>
+        <p class="pe__tit">Links</p>
+        <ul>
+          <li><a href="https://www.instagram.com/escolinha_futebolbatista/" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="#fazer-parte">Contato</a></li>
+          <li><a href="#parceiros">Parceiros</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="pe__tit">Contato</p>
+        <p class="pe__local"><a href="https://wa.me/5519995059040" target="_blank" rel="noopener">WhatsApp +55 19 99505-9040</a></p>
+        <p class="pe__tit" style="margin-top:22px">Local</p>
+        <p class="pe__local">Rua Sebastião Jarder Sarkis, 216<br>
+        Humberto Carlos Passarela<br>
+        Itapira, São Paulo<br>
+        CEP 13971-248</p>
+      </div>
+    </div>
+    <div class="colab">
+      <p class="colab__tit">Projeto em colaboração</p>
+      <div class="colab__marcas">
+        <div class="colab__item">
+          <span class="colab__marca"><img class="colab__creative" src="CREATIVE_SRC" alt="Creative Marketing Digital" width="256" height="288" decoding="async"></span>
+          <p class="colab__papel">Relacionamento e atendimento</p>
+        </div>
+        <div class="colab__item">
+          <span class="colab__marca"><img class="colab__iaieu" src="IAIEU_SRC" alt="IAieu" width="1100" height="373" decoding="async"></span>
+          <p class="colab__papel">Criação e desenvolvimento</p>
+        </div>
+      </div>
+    </div>
+    <div class="pe__fim">
+      <span>© <span id="ano">2026</span> Escolinha de Futebol Batista de Itapira.</span>
+      <span>Fotos: acervo da Escolinha de Futebol Batista.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var topo=document.getElementById('topo');
+  var gav=document.getElementById('gaveta');
+  var abrir=document.getElementById('abrir');
+  var fechar=document.getElementById('fechar');
+  function onScroll(){ topo.classList.toggle('fixo', window.scrollY>40); }
+  onScroll(); window.addEventListener('scroll',onScroll,{passive:true});
+  function abre(){ gav.classList.add('on'); gav.setAttribute('aria-hidden','false'); abrir.setAttribute('aria-expanded','true'); document.body.style.overflow='hidden'; }
+  function fecha(){ gav.classList.remove('on'); gav.setAttribute('aria-hidden','true'); abrir.setAttribute('aria-expanded','false'); document.body.style.overflow=''; }
+  abrir.addEventListener('click',abre); fechar.addEventListener('click',fecha);
+  gav.querySelectorAll('a').forEach(function(a){a.addEventListener('click',fecha)});
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') fecha(); });
+  document.getElementById('ano').textContent=new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
