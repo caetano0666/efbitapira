@@ -141,7 +141,9 @@ pic = ('<picture>'
 html = troca(html, "hero", pic)
 for slot, (tag, n, arq, size) in comuns.items():
     html = troca(html, slot, tag)
-out = root/'escolinha-batista-home.html'
+# arquivo unico de producao. o nome index.html e o que a hospedagem serve na raiz.
+# nao existe segunda copia: nada para esquecer de sincronizar.
+out = root/'index.html'
 out.write_text(html, encoding='utf-8')
 print(f'HERO: desktop {hs[0]}x{hs[1]} {len(hd)//1024} KB | mobile {ms[0]}x{ms[1]} {len(hm)//1024} KB')
 print(f'arquivo oficial: {out.name}  {out.stat().st_size//1024} KB')

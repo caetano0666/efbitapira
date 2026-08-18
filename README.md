@@ -12,11 +12,15 @@ conhecimento de HTML e CSS consegue mantê-lo.
 - `template.html` — arquivo fonte. É aqui que se edita conteúdo e design.
 - `build-home.py` — gera o site a partir do template, das fotos e dos logotipos.
 - `fotos/` — fotografias originais, em alta resolução.
-- `escolinha-batista-home.html` — arquivo gerado pelo build.
-- `index.html` — cópia exata do gerado, com o nome que a hospedagem exige.
+- `index.html` — o site pronto, gerado pelo build. É o único arquivo publicado.
 
-**Nunca edite `escolinha-batista-home.html` ou `index.html` diretamente.**
-Eles são gerados e qualquer alteração feita neles se perde na próxima build.
+**Nunca edite `index.html` diretamente.** Ele é gerado e qualquer alteração
+feita nele se perde na próxima build. Existe um único arquivo de saída, de
+propósito: não há segunda cópia para esquecer de sincronizar.
+
+Até 17/08/2026 o build gerava `escolinha-batista-home.html` e uma cópia manual
+virava `index.html`. As duas eram idênticas, e manter isso dependia de disciplina.
+A saída foi unificada. As versões antigas continuam no histórico deste repositório.
 
 ## Como reconstruir o site
 
@@ -25,7 +29,6 @@ Requer Python 3 com a biblioteca Pillow, e Node.js para baixar as fontes.
 ```
 npm install @fontsource/archivo @fontsource/inter
 python3 build-home.py
-cp escolinha-batista-home.html index.html
 ```
 
 ## Publicação
