@@ -181,11 +181,13 @@ section[id]{scroll-margin-top:96px}
   padding:6px 0;border-bottom:2px solid transparent;transition:color .16s,border-color .16s;
 }
 .nav a:hover{color:#fff;border-bottom-color:var(--azul-vivo)}
+.nav a,.topo .btn{white-space:nowrap}
+@media (max-width:1300px){.nav-desk{gap:22px}}
 .topo .btn{min-height:44px;padding:0 22px;font-size:13.5px}
 .menu-btn{display:none;background:none;border:0;padding:10px;color:#fff;cursor:pointer}
 .menu-btn svg{display:block}
 
-@media (max-width:1000px){
+@media (max-width:1150px){
   .nav-desk{display:none}
   .menu-btn{display:block}
   .topo{background:rgba(6,30,56,.97);backdrop-filter:blur(10px)}
@@ -544,6 +546,7 @@ section[id]{scroll-margin-top:96px}
       <a href="/#conquistas">Conquistas</a>
       <a href="/#galeria">Galeria</a>
       <a href="/#parceiros">Parceiros</a>
+      <a href="/doacao/">Doação</a>
       <a href="/#fazer-parte" class="btn btn--p">Quero apoiar</a>
     </nav>
     <button class="menu-btn" id="abrir" aria-label="Abrir menu" aria-expanded="false" aria-controls="gaveta">
@@ -561,6 +564,7 @@ section[id]{scroll-margin-top:96px}
   <a href="/#conquistas">Conquistas</a>
   <a href="/#galeria">Galeria</a>
   <a href="/#parceiros">Parceiros</a>
+  <a href="/doacao/">Doação</a>
   <a href="/#fazer-parte">Faça parte</a>
   <a href="/#fazer-parte" class="btn btn--p">Quero apoiar</a>
 </div>
