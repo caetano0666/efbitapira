@@ -170,7 +170,10 @@ script      = bloco(base, '<script>\n(function(){\n  var topo', '</script>')
 # fora da home os ancoras precisam voltar para a raiz
 def raiz(t): return t.replace('href="#', 'href="/#')
 
-qr_bytes = (root/'qr-pix-oficial.png').read_bytes()
+# QR oficial: recorte sem reamostragem da imagem do app bancario
+# fornecida pelo cliente em 18/08/2026. arquivo-fonte preservado em
+# 05_ARQUIVO/EFB. os pixels sao os do original.
+qr_bytes = (root/'qr-pix-oficial-2026-08-18.png').read_bytes()
 qr_img = Image.open(io.BytesIO(qr_bytes))
 qr_b64 = base64.b64encode(qr_bytes).decode()
 
@@ -198,4 +201,4 @@ destino.mkdir(exist_ok=True)
 print('---')
 print(f'doacao/index.html  {(destino/"index.html").stat().st_size//1024} KB')
 print(f'  foto     f10.jpg  {tam_menino[0]}x{tam_menino[1]}  {len(foto_menino)//1024} KB')
-print(f'  qr       qr-pix-oficial.png  {qr_img.size[0]}x{qr_img.size[1]}  {len(qr_bytes)//1024} KB')
+print(f'  qr       qr-pix-oficial-2026-08-18.png  {qr_img.size[0]}x{qr_img.size[1]}  {len(qr_bytes)//1024} KB')
