@@ -22,6 +22,15 @@
           "o_que": "Publicação prevista do demonstrativo nesta página",
           "vivo": false
         }
+      ],
+      "documentos": [
+        {
+          "titulo": "DOCUMENTO DE TESTE - SEM VALIDADE",
+          "descricao": "    Teste técnico do módulo de Transparência. Não contém dados financeiros reais.",
+          "arquivo": "/transparencia/arquivos/EFB_DOCUMENTO_TESTE_TRANSPARENCIA-1.pdf",
+          "publicado": false,
+          "ordem": 1
+        }
       ]
     }
   ]
