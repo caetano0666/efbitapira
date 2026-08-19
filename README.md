@@ -52,6 +52,27 @@ npm install @fontsource/archivo @fontsource/inter
 python3 build-home.py
 ```
 
+## Painel da Transparência: risco residual conhecido
+
+A página de Transparência é editada por um painel administrativo, o Pages CMS,
+que grava direto neste repositório. O painel só expõe a lista de documentos e a
+pasta de PDFs, e a restrição é verificada no servidor, não apenas na tela.
+
+Existe um risco residual conhecido, aceito por decisão do responsável pelo
+projeto em 19/08/2026: a validação de caminho do Pages CMS compara o início do
+caminho, sem marcar a fronteira da pasta. Na prática, quem tem acesso ao painel
+pode criar arquivos, restritos à extensão configurada, em uma pasta vizinha cujo
+nome comece igual ao da pasta autorizada.
+
+O que esse risco NAO alcança, verificado no código do Pages CMS:
+home, página de doação, QR do PIX, arquivos de código, template, automação do
+GitHub Actions e o próprio .pages.yml. Todos esses são recusados pelo servidor
+antes de qualquer escrita.
+
+A falha foi reportada ao projeto Pages CMS pelo canal privado de vulnerabilidade.
+Enquanto não houver correção do fornecedor, a conduta é: conferir de tempos em
+tempos se surgiu pasta inesperada perto de transparencia/arquivos.
+
 ## Publicação
 
 Hospedado no GitHub Pages, a partir da branch `main`, pasta raiz.
