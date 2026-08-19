@@ -1,0 +1,59 @@
+# Regenera a pagina de Transparencia quando a lista de documentos muda.
+#
+# Quem edita pelo painel administrativo altera apenas
+# transparencia/documentos.json e envia os PDFs para
+# transparencia/arquivos/. Este processo cuida do resto: refaz o
+# HTML e devolve ao repositorio, e o site entra no ar sozinho.
+#
+# Nao toca na home nem na pagina de doacao, e nao precisa da pasta
+# fotos/, que continua fora do repositorio.
+
+name: Publicar Transparencia
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'transparencia/documentos.json'
+      - 'transparencia/arquivos/**'
+      - 'template-transparencia.html'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: transparencia
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalar as fontes do site
+        run: npm install --no-save @fontsource/archivo @fontsource/inter
+
+      - name: Gerar a pagina
+        run: python3 build-transparencia.py
+
+      - name: Publicar se houve mudanca
+        run: |
+          if git diff --quiet -- transparencia/index.html; then
+            echo "A pagina nao mudou. Nada a publicar."
+            exit 0
+          fi
+          git config user.name  "Painel da Transparencia"
+          git config user.email "acoes@users.noreply.github.com"
+          git add transparencia/index.html
+          git commit -m "Transparencia: pagina atualizada pelo painel"
+          git push
