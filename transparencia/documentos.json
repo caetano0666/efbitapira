@@ -4,14 +4,25 @@
       "ano": "2026",
       "titulo": "Exercício em andamento",
       "situacao": "em_preparacao",
-      "espera_titulo": "O primeiro fechamento é o de 2026.",
+      "espera_titulo": "O primeiro fechamento será o de 2026.",
       "espera_texto": "O período está aberto. Assim que a Escolinha concluir a consolidação, o demonstrativo passa a viver aqui e permanece como arquivo permanente.",
       "marcos": [
-        { "quando": "Agora", "o_que": "Exercício de 2026 em andamento", "vivo": true },
-        { "quando": "31 dez 2026", "o_que": "Encerramento do período" },
-        { "quando": "Janeiro de 2027", "o_que": "Publicação prevista do demonstrativo nesta página" }
-      ],
-      "documentos": []
+        {
+          "quando": "Agora",
+          "o_que": "Exercício de 2026 em andamento",
+          "vivo": true
+        },
+        {
+          "quando": "31 dez 2026",
+          "o_que": "Encerramento do período",
+          "vivo": false
+        },
+        {
+          "quando": "Janeiro de 2027",
+          "o_que": "Publicação prevista do demonstrativo nesta página",
+          "vivo": false
+        }
+      ]
     }
   ]
 }
