@@ -1,23 +1,18 @@
-import base64, io, re, sys, pathlib
+# ============================================================
+# BUILD DA HOME E DA PAGINA DE DOACAO
+#
+# Gera index.html e doacao/index.html.
+# Precisa da pasta fotos/, que nao vive no repositorio publico.
+#
+# A pagina de Transparencia sai de build-transparencia.py, chamado
+# no fim deste arquivo, para que rodar este comando continue
+# gerando as tres paginas como sempre.
+#
+# Rodar: python3 build-home.py
+# ============================================================
+import base64, io
 from PIL import Image, ImageOps, ImageFilter, ImageEnhance
-
-root = pathlib.Path('.')
-
-# ============================================================
-# FONTES
-# ============================================================
-faces = [
- ("Archivo", 600, "@fontsource/archivo/files/archivo-latin-600-normal.woff2"),
- ("Archivo", 700, "@fontsource/archivo/files/archivo-latin-700-normal.woff2"),
- ("Archivo", 800, "@fontsource/archivo/files/archivo-latin-800-normal.woff2"),
- ("Inter", 400, "@fontsource/inter/files/inter-latin-400-normal.woff2"),
- ("Inter", 500, "@fontsource/inter/files/inter-latin-500-normal.woff2"),
- ("Inter", 600, "@fontsource/inter/files/inter-latin-600-normal.woff2"),
-]
-fontcss = []
-for fam, w, rel in faces:
-    d = base64.b64encode((root/'node_modules'/rel).read_bytes()).decode()
-    fontcss.append(f"@font-face{{font-family:'{fam}';font-style:normal;font-weight:{w};font-display:swap;src:url(data:font/woff2;base64,{d}) format('woff2');}}")
+from comum import root, base, troca, estilo_base, cabecalho, gaveta, rodape, script, raiz
 
 def abrir(nome):
     return ImageOps.exif_transpose(Image.open(root/'fotos'/nome)).convert("RGB")
@@ -103,26 +98,6 @@ FOTOS = {
  "gal6":     ("f11.jpg", 3/2,   900, 0.42, 0.50, "Professor da Escolinha no campo antes da atividade", 74),
 }
 
-PH = re.compile(r'<div class="ph[^"]*">.*?</div>', re.S)
-
-def troca(html, slot, novo_html):
-    m = re.search(r'data-slot="%s"' % slot, html)
-    if not m: raise SystemExit("slot ausente: " + slot)
-    t = html[m.end():]; m2 = PH.search(t)
-    if not m2: raise SystemExit("placeholder ausente: " + slot)
-    return html[:m.end()+m2.start()] + novo_html + html[m.end()+m2.end():]
-
-logo_b64 = base64.b64encode((root/'logo-escolinha-batista.png').read_bytes()).decode()
-base = (root/'template.html').read_text(encoding='utf-8').replace('/*FONTS*/', "\n".join(fontcss))
-base = base.replace('LOGO_SRC', 'data:image/png;base64,' + logo_b64)
-print('logo oficial embutido:', len(logo_b64)*3//4//1024, 'KB por instancia')
-
-# assinatura de colaboracao: logos oficiais adaptados para fundo escuro
-for chave, arq in (('CREATIVE_SRC','logo-creative-branco.png'), ('IAIEU_SRC','logo-iaieu-branco.png')):
-    b = base64.b64encode((root/arq).read_bytes()).decode()
-    base = base.replace(chave, 'data:image/png;base64,' + b)
-    print(f'{chave}: {arq}  {len(b)*3//4//1024} KB')
-
 comuns = {}
 for slot, (arq, ratio, larg, fy, fx, alt, q) in FOTOS.items():
     data, size = recorta(arq, ratio, larg, fy, fx, q)
@@ -156,23 +131,6 @@ for slot, (tag, n, arq, size) in comuns.items():
 # reaproveita o mesmo CSS, cabecalho, menu e rodape do site,
 # extraidos do proprio template ja processado. nada e duplicado.
 # ============================================================
-def bloco(txt, ini, fim, inclusive=True):
-    a = txt.index(ini)
-    b = txt.index(fim, a) + (len(fim) if inclusive else 0)
-    return txt[a:b]
-
-estilo_base = bloco(base, '<style>', '</style>')[len('<style>'):-len('</style>')]
-cabecalho   = bloco(base, '<header class="topo"', '</header>')
-gaveta      = bloco(base, '<div class="gaveta"', '</div>\n\n<main>', inclusive=False) + '</div>'
-rodape      = bloco(base, '<footer class="pe">', '</footer>')
-script      = bloco(base, '<script>\n(function(){\n  var topo', '</script>')
-
-# fora da home os ancoras precisam voltar para a raiz
-def raiz(t): return t.replace('href="#', 'href="/#')
-
-# QR oficial: recorte sem reamostragem da imagem do app bancario
-# fornecida pelo cliente em 18/08/2026. arquivo-fonte preservado em
-# 05_ARQUIVO/EFB. os pixels sao os do original.
 qr_bytes = (root/'qr-pix-oficial-2026-08-18.png').read_bytes()
 qr_img = Image.open(io.BytesIO(qr_bytes))
 qr_b64 = base64.b64encode(qr_bytes).decode()
@@ -204,93 +162,8 @@ print(f'  foto     f10.jpg  {tam_menino[0]}x{tam_menino[1]}  {len(foto_menino)//
 print(f'  qr       qr-pix-oficial-2026-08-18.png  {qr_img.size[0]}x{qr_img.size[1]}  {len(qr_bytes)//1024} KB')
 
 # ============================================================
-# PAGINA DE TRANSPARENCIA  ->  transparencia/index.html
-# mesmo padrao da doacao: reaproveita CSS, cabecalho, menu, rodape
-# e script do template principal ja processado.
-#
-# a lista de documentos vem de transparencia/documentos.json.
-# esse arquivo e o unico ponto que o painel administrativo edita.
-# nenhum numero, valor ou documento e criado aqui.
+# a pagina de Transparencia sai do seu proprio arquivo, que nao
+# depende das fotos. rodar build-home.py continua gerando as tres.
 # ============================================================
-import json, html as _html
-
-def _esc(s): return _html.escape(str(s), quote=True)
-
-def _peso(caminho):
-    f = root / caminho.lstrip('/')
-    if not f.exists(): return None
-    b = f.stat().st_size
-    return f'{b/1048576:.1f} MB' if b >= 1048576 else f'{max(1, b//1024)} KB'
-
-def monta_periodos(dados):
-    saida = []
-    for per in dados.get('periodos', []):
-        ano = _esc(per.get('ano', ''))
-        titulo = _esc(per.get('titulo', '') or f'Exercício de {ano}')
-        docs = [d for d in per.get('documentos', []) if d.get('publicado')]
-        docs.sort(key=lambda d: d.get('ordem', 0))
-
-        if docs:
-            linhas = []
-            for d in docs:
-                arq = d.get('arquivo', '')
-                meta = [m for m in (_esc(d.get('descricao', '')), _peso(arq)) if m]
-                linhas.append(
-                    '<li class="tr-doc"><a href="%s" target="_blank" rel="noopener">'
-                    '<span class="tr-doc__txt">'
-                    '<span class="tr-doc__nome">%s</span>'
-                    '<span class="tr-doc__meta">%s</span>'
-                    '</span>'
-                    '<span class="tr-doc__ir">Abrir PDF'
-                    '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
-                    'stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
-                    '<path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></li>'
-                    % (_esc(arq), _esc(d.get('titulo', 'Documento')), ' &middot; '.join(meta))
-                )
-            corpo = '<ul class="tr-docs">%s</ul>' % ''.join(linhas)
-        else:
-            titulo_e = _esc(per.get('espera_titulo', 'Demonstrativo em preparação.'))
-            texto_e = _esc(per.get('espera_texto',
-                'Será publicado aqui quando o fechamento do período for concluído pela Escolinha.'))
-            marcos = per.get('marcos', [])
-            lis = ''.join(
-                '<li class="tr-marco%s"><span class="tr-marco__q">%s</span>'
-                '<p class="tr-marco__o">%s</p></li>'
-                % (' tr-marco--vivo' if mk.get('vivo') else '',
-                   _esc(mk.get('quando', '')), _esc(mk.get('o_que', '')))
-                for mk in marcos
-            )
-            lista = '<ul class="tr-marcos">%s</ul>' % lis if lis else ''
-            corpo = ('<div class="tr-espera">'
-                     '<p class="tr-espera__tag">Em preparação</p>'
-                     '<p class="tr-espera__t">%s</p>'
-                     '<p class="tr-espera__p">%s</p>%s</div>'
-                     % (titulo_e, texto_e, lista))
-
-        saida.append(
-            '<div class="tr-ano">'
-            '<div class="tr-ano__marca"><span class="tr-ano__n">%s</span>'
-            '<p class="tr-ano__t">%s</p></div>'
-            '<div>%s</div></div>' % (ano, titulo, corpo)
-        )
-    return '\n'.join(saida)
-
-pasta_tr = root / 'transparencia'
-pasta_tr.mkdir(exist_ok=True)
-indice = pasta_tr / 'documentos.json'
-dados = json.loads(indice.read_text(encoding='utf-8')) if indice.exists() else {'periodos': []}
-
-tr = (root / 'template-transparencia.html').read_text(encoding='utf-8')
-tr = tr.replace('/*ESTILO_BASE*/', estilo_base)
-tr = tr.replace('<!--CABECALHO-->', raiz(cabecalho))
-tr = tr.replace('<!--GAVETA-->', raiz(gaveta))
-tr = tr.replace('<!--RODAPE-->', raiz(rodape))
-tr = tr.replace('<!--SCRIPT-->', script)
-tr = tr.replace('<!--PERIODOS-->', monta_periodos(dados))
-(pasta_tr / 'index.html').write_text(tr, encoding='utf-8')
-
-_pub = sum(len([d for d in per.get('documentos', []) if d.get('publicado')])
-           for per in dados.get('periodos', []))
-print('---')
-print(f'transparencia/index.html  {(pasta_tr/"index.html").stat().st_size//1024} KB')
-print(f'  periodos {len(dados.get("periodos", []))}  |  documentos publicados {_pub}')
+import runpy
+runpy.run_path(str(root / 'build-transparencia.py'), run_name='__main__')

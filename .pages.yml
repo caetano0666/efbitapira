@@ -1,0 +1,113 @@
+# Painel administrativo da Transparencia (Pages CMS)
+#
+# Define o que aparece no painel e o que pode ser editado.
+# O painel toca em dois lugares e em mais nada:
+#   transparencia/documentos.json   a lista de periodos e documentos
+#   transparencia/arquivos/         os PDFs
+#
+# O restante do site nao esta exposto aqui: nem a home, nem a pagina
+# de doacao, nem o QR do PIX, nem as fotografias.
+
+media:
+  - name: documentos
+    label: Documentos em PDF
+    input: transparencia/arquivos
+    output: /transparencia/arquivos
+    extensions: [pdf]
+    categories: [document]
+
+content:
+  - name: transparencia
+    label: Transparência
+    type: file
+    path: transparencia/documentos.json
+    format: json
+    icon: file-text
+    fields:
+      - name: periodos
+        label: Períodos
+        type: object
+        list:
+          min: 1
+        fields:
+          - name: ano
+            label: Ano
+            type: string
+            required: true
+            description: "Só o ano, por exemplo 2026."
+
+          - name: titulo
+            label: Título do período
+            type: string
+            required: true
+            description: "Aparece embaixo do ano. Enquanto o período não fechou, use Exercício em andamento."
+
+          - name: situacao
+            label: Situação
+            type: select
+            options:
+              values:
+                - { value: em_preparacao, label: Em preparação }
+                - { value: publicado, label: Publicado }
+            default: em_preparacao
+
+          - name: espera_titulo
+            label: Aviso enquanto não há documento (título)
+            type: string
+            description: "Só aparece enquanto o período não tem nenhum documento publicado."
+
+          - name: espera_texto
+            label: Aviso enquanto não há documento (texto)
+            type: text
+
+          - name: marcos
+            label: Linha do tempo
+            type: object
+            list: true
+            description: "Os passos até a publicação. Some da página assim que existir documento publicado."
+            fields:
+              - name: quando
+                label: Quando
+                type: string
+                description: "Por exemplo: Agora, 31 dez 2026, Janeiro de 2027."
+              - name: o_que
+                label: O que acontece
+                type: string
+              - name: vivo
+                label: É o momento atual
+                type: boolean
+                default: false
+
+          - name: documentos
+            label: Documentos do período
+            type: object
+            list: true
+            description: "Enquanto estiver vazio, a página mostra o aviso acima. Nenhum documento é inventado."
+            fields:
+              - name: titulo
+                label: Nome do documento
+                type: string
+                required: true
+              - name: descricao
+                label: Descrição curta
+                type: string
+              - name: arquivo
+                label: Arquivo PDF
+                type: image
+                options:
+                  media: documentos
+                required: true
+              - name: publicado
+                label: Publicado no site
+                type: boolean
+                default: false
+                description: "Deixe desmarcado para preparar sem que apareça no site."
+              - name: ordem
+                label: Ordem
+                type: number
+                default: 1
+                description: "Menor aparece primeiro."
+
+settings:
+  content:
+    merge: true
