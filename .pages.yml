@@ -93,9 +93,10 @@ content:
                 type: string
               - name: arquivo
                 label: Arquivo PDF
-                type: image
+                type: file
                 options:
                   media: documentos
+                  extensions: [pdf]
                 required: true
               - name: publicado
                 label: Publicado no site
