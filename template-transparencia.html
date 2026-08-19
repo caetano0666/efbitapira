@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Transparência | Escolinha de Futebol Batista de Itapira</title>
+<meta name="description" content="Transparência da Escolinha de Futebol Batista de Itapira. Como a prestação de contas funciona, quem responde por ela e onde ficam os documentos de cada período.">
+<link rel="canonical" href="https://efbitapira.org/transparencia/">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#061E38">
+<style>
+/*ESTILO_BASE*/
+
+/* ============================================================
+   PAGINA DE TRANSPARENCIA
+   mesmos tokens, tipografia e componentes do site
+   ============================================================ */
+
+/* abertura */
+.tr-abre{padding-block:clamp(60px,8vw,116px)}
+.tr-abre h1{font-size:clamp(32px,5vw,62px);line-height:1.04;letter-spacing:-.024em;max-width:16ch;margin:0 0 30px}
+.tr-abre__lead p{font-size:clamp(17px,1.7vw,20.5px);line-height:1.62;color:#B9CCE0;max-width:58ch}
+.tr-abre__fecho{
+  color:#fff;font-family:"Archivo",sans-serif;font-weight:700;
+  font-size:clamp(17px,1.9vw,22px);line-height:1.35;letter-spacing:-.01em;
+  max-width:34ch;margin-top:clamp(30px,3.6vw,42px);
+}
+.tr-abre__nota{
+  margin-top:clamp(40px,5vw,60px);padding-left:20px;
+  border-left:3px solid var(--azul-vivo);
+  font-size:clamp(15.5px,1.5vw,17.5px);line-height:1.62;color:#A9BFD6;max-width:52ch;
+}
+
+/* blocos de texto institucional */
+.tr-bloco{padding-block:clamp(60px,8vw,110px)}
+.tr-bloco h2{font-size:clamp(25px,3vw,38px);line-height:1.1;letter-spacing:-.02em;max-width:20ch;margin:0 0 clamp(30px,3.6vw,44px)}
+.tr-passos{display:grid;grid-template-columns:1fr;gap:clamp(26px,3vw,38px);max-width:62ch}
+@media (min-width:900px){.tr-passos{grid-template-columns:repeat(3,1fr);max-width:none;gap:clamp(28px,3vw,52px)}}
+.tr-passo{border-top:2px solid var(--texto);padding-top:18px}
+.tr-passo h3{font-size:clamp(17px,1.7vw,20px);line-height:1.25;letter-spacing:-.01em;margin:0 0 10px}
+.tr-passo p{font-size:16px;line-height:1.6;color:var(--texto-suave);margin:0}
+
+/* ---------- QUEM RESPONDE ---------- */
+.tr-resp{display:grid;grid-template-columns:1fr;gap:clamp(38px,5vw,72px);align-items:start}
+@media (min-width:1000px){.tr-resp{grid-template-columns:1.25fr .75fr}}
+.tr-resp__nome{
+  font-family:"Archivo",sans-serif;font-weight:800;
+  font-size:clamp(34px,5.6vw,68px);line-height:1.02;letter-spacing:-.03em;
+  margin:0 0 18px;max-width:11ch;
+}
+.tr-resp__cargo{
+  font-family:"Archivo",sans-serif;font-weight:700;font-size:12px;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--azul-claro);margin:0 0 20px;
+}
+.tr-resp__txt{font-size:clamp(16.5px,1.6vw,19px);line-height:1.6;color:var(--texto-suave);max-width:44ch;margin:0}
+.tr-pedido{
+  background:#fff;border:1px solid var(--borda);border-radius:var(--r);
+  padding:clamp(26px,3vw,38px);
+}
+.tr-pedido h3{font-size:clamp(20px,2.1vw,25px);line-height:1.2;letter-spacing:-.015em;margin:0 0 14px}
+.tr-pedido p{font-size:16px;line-height:1.6;color:var(--texto-suave);margin:0 0 26px}
+.tr-pedido .btns{margin-top:0}
+.tr-pedido .btn{width:100%}
+
+/* ---------- O QUE SUSTENTA, em linhas editoriais ---------- */
+.tr-decls{margin-top:clamp(6px,1vw,14px);border-top:2px solid var(--texto)}
+.tr-decl{
+  display:grid;grid-template-columns:1fr;gap:10px;
+  padding-block:clamp(26px,3.2vw,42px);border-bottom:1px solid var(--borda);
+}
+@media (min-width:820px){
+  .tr-decl{grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:clamp(32px,5vw,80px);align-items:baseline}
+}
+.tr-decl__t{
+  font-family:"Archivo",sans-serif;font-weight:800;
+  font-size:clamp(23px,3.2vw,42px);line-height:1.08;letter-spacing:-.025em;margin:0;max-width:14ch;
+}
+.tr-decl__d{font-size:clamp(16px,1.55vw,18px);line-height:1.62;color:var(--texto-suave);margin:0;max-width:42ch}
+
+/* ---------- QUEM SOMOS, ficha editorial ---------- */
+.tr-ficha{
+  display:grid;grid-template-columns:1fr;gap:clamp(24px,3vw,38px);
+  border-top:2px solid var(--texto);padding-top:clamp(26px,3vw,40px);
+}
+@media (min-width:700px){.tr-ficha{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:1080px){.tr-ficha{grid-template-columns:repeat(3,1fr);column-gap:clamp(32px,4vw,64px)}}
+.tr-ficha__i{min-width:0}
+.tr-ficha__r{
+  font-family:"Archivo",sans-serif;font-weight:700;font-size:11px;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--azul-claro);margin:0 0 8px;
+}
+.tr-ficha__v{
+  font-family:"Archivo",sans-serif;font-weight:700;
+  font-size:clamp(17px,1.7vw,20px);line-height:1.32;letter-spacing:-.012em;margin:0;
+}
+.tr-ficha__i--largo{grid-column:1/-1}
+.tr-ficha__i--largo .tr-ficha__v{font-weight:600;font-family:"Inter",sans-serif;font-size:clamp(16.5px,1.6vw,19px);line-height:1.5;letter-spacing:0;max-width:44ch}
+
+/* ---------- ARQUIVO ---------- */
+.tr-arquivo{padding-bottom:clamp(52px,6vw,92px)}
+.tr-ano{
+  display:grid;grid-template-columns:1fr;gap:clamp(20px,2.6vw,34px);
+  padding-block:clamp(30px,3.4vw,44px);border-top:2px solid var(--texto);
+}
+@media (min-width:900px){
+  .tr-ano{grid-template-columns:minmax(0,.42fr) minmax(0,.58fr);column-gap:clamp(32px,5vw,72px);align-items:start}
+}
+.tr-ano__marca{position:sticky;top:104px}
+@media (max-width:899px){.tr-ano__marca{position:static}}
+.tr-ano__n{
+  font-family:"Archivo",sans-serif;font-weight:800;
+  font-size:clamp(84px,15vw,210px);line-height:.82;letter-spacing:-.05em;
+  color:var(--azul);display:block;margin-left:-.055em;
+}
+.tr-ano__t{
+  font-family:"Archivo",sans-serif;font-weight:700;font-size:11.5px;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--texto-suave);margin:16px 0 0;
+}
+
+.tr-docs{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.tr-doc{border-top:1px solid var(--borda)}
+.tr-doc:first-child{border-top:0}
+.tr-doc a{
+  display:flex;align-items:flex-start;gap:20px;justify-content:space-between;
+  text-decoration:none;color:inherit;padding:20px 0;min-height:56px;transition:color .16s ease;
+}
+.tr-doc a:hover{color:var(--azul)}
+.tr-doc__txt{min-width:0}
+.tr-doc__nome{display:block;font-family:"Archivo",sans-serif;font-weight:700;font-size:clamp(17px,1.7vw,20px);line-height:1.3;letter-spacing:-.01em;margin:0 0 6px}
+.tr-doc__meta{display:block;font-size:14px;color:var(--texto-suave);margin:0}
+.tr-doc__ir{
+  flex:none;padding-top:2px;font-family:"Archivo",sans-serif;font-weight:700;font-size:13.5px;
+  letter-spacing:.03em;color:var(--azul);display:inline-flex;align-items:center;gap:9px;transition:gap .18s ease;
+}
+.tr-doc a:hover .tr-doc__ir{gap:15px}
+
+/* ---------- ESTADO DE PREPARACAO ---------- */
+.tr-espera__tag{
+  display:inline-block;font-family:"Archivo",sans-serif;font-weight:700;font-size:11.5px;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--azul-claro);margin:0 0 16px;
+}
+.tr-espera__t{
+  font-family:"Archivo",sans-serif;font-weight:800;
+  font-size:clamp(21px,2.4vw,30px);line-height:1.18;letter-spacing:-.02em;margin:0 0 14px;max-width:20ch;
+}
+.tr-espera__p{font-size:16px;line-height:1.6;color:var(--texto-suave);margin:0 0 clamp(28px,3.4vw,40px);max-width:46ch}
+.tr-marcos{list-style:none;margin:0;padding:0;border-top:1px solid var(--borda)}
+.tr-marco{
+  display:grid;grid-template-columns:auto 1fr;column-gap:18px;align-items:baseline;
+  padding:15px 0;border-bottom:1px solid var(--borda);
+}
+.tr-marco__q{
+  font-family:"Archivo",sans-serif;font-weight:700;font-size:11.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--texto-suave);white-space:nowrap;
+}
+.tr-marco__o{font-size:16px;line-height:1.45;color:var(--texto);margin:0}
+.tr-marco--vivo .tr-marco__q{color:var(--azul-claro)}
+.tr-marco--vivo .tr-marco__o{font-weight:600}
+
+/* pedido de documento */
+.tr-pedir{padding-block:clamp(56px,7vw,96px)}
+.tr-pedir h2{font-size:clamp(24px,2.8vw,34px);line-height:1.12;letter-spacing:-.02em;max-width:22ch;margin:0 0 20px}
+.tr-pedir p{max-width:56ch}
+</style>
+</head>
+<body>
+
+<!--CABECALHO-->
+
+<!--GAVETA-->
+
+<main>
+
+<!-- ============ ABERTURA ============ -->
+<section class="sec sec--escuro tr-abre">
+  <div class="wrap">
+    <p class="rotulo">Prestação de contas</p>
+    <h1>Transparência faz parte do que ensinamos.</h1>
+
+    <div class="tr-abre__lead">
+      <p>Cada contribuição que chega até a Escolinha ajuda a manter um projeto que vai muito além do futebol. São recursos que se transformam em oportunidades, estrutura e continuidade para nossas crianças e adolescentes.</p>
+      <p>Por isso, acreditamos que quem caminha ao nosso lado também deve saber como esses recursos são utilizados. Nesta página, reunimos nossas prestações de contas e os documentos que mostram, com clareza e responsabilidade, como cuidamos de tudo o que recebemos.</p>
+    </div>
+
+    <p class="tr-abre__fecho">Porque confiança também se constrói com transparência.</p>
+
+    <p class="tr-abre__nota">Os demonstrativos e documentos de cada período serão disponibilizados nesta página à medida que os respectivos fechamentos forem concluídos pela Escolinha.</p>
+  </div>
+</section>
+
+<!-- ============ COMO FUNCIONA ============ -->
+<section class="sec tr-bloco">
+  <div class="wrap">
+    <p class="rotulo">Como funciona</p>
+    <h2>Como a prestação de contas funciona.</h2>
+
+    <div class="tr-passos">
+      <div class="tr-passo">
+        <h3>No dia a dia</h3>
+        <p>Comprovantes de contribuições e demais movimentações são apresentados no grupo de WhatsApp dos pais, onde quem acompanha o projeto de perto pode perguntar e conferir.</p>
+      </div>
+      <div class="tr-passo">
+        <h3>No fechamento do período</h3>
+        <p>Concluído o fechamento, o demonstrativo consolidado passa a viver nesta página, aberto a qualquer pessoa, e permanece aqui como arquivo permanente.</p>
+      </div>
+      <div class="tr-passo">
+        <h3>Se houver recurso público</h3>
+        <p>Recursos destinados pelo poder público, quando existirem, integram a prestação de contas conforme a documentação oficial exigida da Escolinha.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ QUEM RESPONDE ============ -->
+<section class="sec sec--cinza tr-bloco">
+  <div class="wrap">
+    <p class="rotulo">Quem responde</p>
+    <div class="tr-resp">
+      <div>
+        <p class="tr-resp__cargo">Presidente da Associação</p>
+        <p class="tr-resp__nome">William Maia da Silva</p>
+        <p class="tr-resp__txt">Ao lado do vice-presidente, Professor Rodrigo Godoy, responde pela diretoria eleita e pela prestação de contas da Escolinha. Tem nome, tem cargo e atende pelo mesmo número que a família usa para matricular a criança.</p>
+      </div>
+      <div class="tr-pedido">
+        <h3>Quer ver um documento?</h3>
+        <p>Qualquer pessoa pode pedir um documento da Escolinha pelo WhatsApp. O pedido chega direto a quem responde pelo projeto.</p>
+        <div class="btns">
+          <a href="https://wa.me/5519995059040" class="btn btn--e" target="_blank" rel="noopener">Falar no WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ O QUE SUSTENTA ============ -->
+<section class="sec tr-bloco">
+  <div class="wrap">
+    <p class="rotulo">O que sustenta o projeto</p>
+    <h2>Os treinos são gratuitos. A contribuição é voluntária.</h2>
+
+    <div class="tr-decls">
+      <div class="tr-decl">
+        <p class="tr-decl__t">Participação gratuita</p>
+        <p class="tr-decl__d">Nenhuma criança ou adolescente paga para treinar na Escolinha.</p>
+      </div>
+      <div class="tr-decl">
+        <p class="tr-decl__t">Contribuição voluntária</p>
+        <p class="tr-decl__d">Pais, empresas e apoiadores contribuem de forma voluntária para manter o trabalho de pé.</p>
+      </div>
+      <div class="tr-decl">
+        <p class="tr-decl__t">Nunca uma condição</p>
+        <p class="tr-decl__d">A contribuição nunca é condição para a criança participar, e isso não muda.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ A ASSOCIACAO ============ -->
+<section class="sec sec--cinza tr-bloco">
+  <div class="wrap">
+    <p class="rotulo">A Associação</p>
+    <h2>Quem somos, no papel.</h2>
+    <div class="tr-ficha">
+      <div class="tr-ficha__i">
+        <p class="tr-ficha__r">Razão social</p>
+        <p class="tr-ficha__v">Associação Escolinha de Futebol Batista EFB</p>
+      </div>
+      <div class="tr-ficha__i">
+        <p class="tr-ficha__r">CNPJ</p>
+        <p class="tr-ficha__v">53.300.905/0001-43</p>
+      </div>
+      <div class="tr-ficha__i">
+        <p class="tr-ficha__r">Natureza jurídica</p>
+        <p class="tr-ficha__v">Associação Privada</p>
+      </div>
+      <div class="tr-ficha__i">
+        <p class="tr-ficha__r">Qualificação</p>
+        <p class="tr-ficha__v">Organização da Sociedade Civil</p>
+      </div>
+      <div class="tr-ficha__i">
+        <p class="tr-ficha__r">Presidente</p>
+        <p class="tr-ficha__v">William Maia da Silva</p>
+      </div>
+      <div class="tr-ficha__i">
+        <p class="tr-ficha__r">Vice-presidente</p>
+        <p class="tr-ficha__v">Rodrigo Godoy</p>
+      </div>
+      <div class="tr-ficha__i tr-ficha__i--largo">
+        <p class="tr-ficha__r">Sede</p>
+        <p class="tr-ficha__v">Rua Sebastião Jarder Sarkis, 216, Humberto Carlos Passarela, Itapira, São Paulo, CEP 13971-248</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ARQUIVO ============ -->
+<section class="sec tr-arquivo" id="arquivo">
+  <div class="wrap">
+    <p class="rotulo">Arquivo</p>
+    <h2 class="t-l" style="max-width:20ch;margin-bottom:clamp(34px,4vw,52px)">Documentos por período.</h2>
+    <!--PERIODOS-->
+  </div>
+</section>
+
+<!-- ============ FECHO ============ -->
+<section class="sec sec--escuro tr-pedir">
+  <div class="wrap">
+    <h2>Ficou com alguma dúvida?</h2>
+    <p class="lead">Pergunte direto para quem cuida do projeto. Se você quiser ver um documento da Escolinha, é só pedir.</p>
+    <div class="btns">
+      <a href="https://wa.me/5519995059040" class="btn btn--p" target="_blank" rel="noopener">Falar no WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!--RODAPE-->
+
+<!--SCRIPT-->
+</body>
+</html>
