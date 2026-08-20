@@ -1,0 +1,21 @@
+# ============================================================
+# LISTA FECHADA DO QUE VAI PARA A PRODUCAO
+#
+# A automacao envia EXATAMENTE estes caminhos, um por um.
+# Nunca espelha, nunca apaga, nunca sincroniza pasta inteira.
+#
+# Por que lista fechada e nao espelhamento:
+#   - espelhar com apagamento destruiria o .htaccess, que existe so
+#     no servidor e nao no repositorio. O site perderia HTTPS
+#     obrigatorio e o redirecionamento do www no mesmo segundo.
+#   - espelhar sem filtro publicaria template.html, os scripts em
+#     Python, o .pages.yml e o PNG original do QR do PIX, que hoje
+#     respondem 404 na producao e devem continuar assim.
+#
+# Uma linha por arquivo. Linhas com # sao comentario.
+# Caminhos relativos a raiz do projeto. Sao os mesmos na KingHost.
+# ============================================================
+
+index.html
+doacao/index.html
+transparencia/index.html

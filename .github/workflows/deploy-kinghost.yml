@@ -1,0 +1,132 @@
+# ============================================================
+# PUBLICAR NA KINGHOST
+#
+# Leva os arquivos ja gerados ate a producao, por FTP, com lista
+# de arquivos fechada e conferencia antes e depois.
+#
+# O usuario efbitapira01 cai direto na raiz publica do site.
+# NAO se acrescenta /www ao caminho.
+#
+# NAO gera a home nem a pagina de doacao. Essas dependem da pasta
+# fotos/, que nao vive no repositorio publico e nao deve viver.
+# Este processo envia o que ja esta versionado.
+#
+# A pagina de Transparencia, essa sim, e gerada pelo workflow
+# "Publicar Transparencia" e chega aqui logo depois.
+#
+# TRES TRAVAS, nesta ordem:
+#   1. deploy/TRAVA precisa dizer LIBERADO
+#   2. no acionamento manual, e preciso digitar PUBLICAR
+#   3. o environment "producao" pode exigir aprovacao humana
+#
+# Enquanto a TRAVA disser BLOQUEADO, este workflow roda, confere
+# tudo e para antes de tocar na producao. E de proposito: da para
+# testar o caminho inteiro sem risco nenhum.
+# ============================================================
+
+name: Publicar na KingHost
+
+on:
+  # Acionamento manual. Serve para publicar e para restaurar.
+  workflow_dispatch:
+    inputs:
+      commit:
+        description: 'Commit a publicar. Vazio = o mais recente. Preencha para RESTAURAR uma versao anterior.'
+        required: false
+        default: ''
+      confirmar:
+        description: 'Digite PUBLICAR para confirmar'
+        required: true
+        default: ''
+
+  # Depois que a Transparencia se regenera.
+  #
+  # Precisa ser workflow_run e nao push: o push feito pelo outro
+  # workflow usa o GITHUB_TOKEN, e o GitHub nao dispara workflows a
+  # partir dele. Com push, isto ficaria verde sem nunca rodar.
+  workflow_run:
+    workflows: ["Publicar Transparencia"]
+    types: [completed]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-kinghost
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    environment: producao
+    steps:
+      - name: Conferir a confirmacao digitada
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          if [ "${{ inputs.confirmar }}" != "PUBLICAR" ]; then
+            echo "Confirmacao ausente ou errada. Digite PUBLICAR."
+            exit 1
+          fi
+
+      - name: Nao publicar se a Transparencia falhou
+        if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion != 'success'
+        run: |
+          echo "O workflow da Transparencia nao terminou com sucesso. Nada a publicar."
+          exit 1
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.commit || '' }}
+          fetch-depth: 0
+
+      - name: Registrar o que sera publicado
+        run: |
+          echo "commit:  $(git rev-parse HEAD)"
+          echo "titulo:  $(git log -1 --format=%s)"
+          echo "origem:  ${{ github.event_name }}"
+
+      - name: Instalar o que a conferencia precisa
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq lftp
+          python3 -m pip install --quiet pillow opencv-python-headless numpy
+
+      # ---- TRAVA 1, validacao local. Nada saiu daqui ainda. ----
+      - name: Validar antes de qualquer envio
+        id: validar
+        continue-on-error: true
+        run: bash deploy/validar.sh
+
+      - name: Parar se a validacao reprovou
+        if: steps.validar.outcome == 'failure'
+        run: |
+          echo "Validacao reprovada ou deploy bloqueado. A producao nao foi tocada."
+          exit 1
+
+      # ---- O envio ----
+      - name: Enviar por FTP
+        env:
+          KH_FTP_HOST: ${{ secrets.KH_FTP_HOST }}
+          KH_FTP_USER: ${{ secrets.KH_FTP_USER }}
+          KH_FTP_PASS: ${{ secrets.KH_FTP_PASS }}
+        run: bash deploy/enviar.sh
+
+      # ---- A conferencia, olhando a producao de fora ----
+      - name: Conferir a producao
+        run: bash deploy/conferir-producao.sh
+
+      - name: Resumo
+        if: always()
+        run: |
+          {
+            echo "### Publicacao na KingHost"
+            echo ""
+            echo "| | |"
+            echo "|---|---|"
+            echo "| commit | \`$(git rev-parse --short HEAD)\` |"
+            echo "| titulo | $(git log -1 --format=%s) |"
+            echo "| origem | ${{ github.event_name }} |"
+            echo "| resultado | ${{ job.status }} |"
+            echo ""
+            echo "Para restaurar uma versao anterior: Run workflow, campo commit, hash desejado."
+          } >> "$GITHUB_STEP_SUMMARY"

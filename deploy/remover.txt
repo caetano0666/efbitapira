@@ -1,0 +1,24 @@
+# ============================================================
+# DESPUBLICACAO DE PDF
+#
+# Tirar um documento do ar tem dois passos, e eles sao diferentes:
+#
+#   1. DESPUBLICAR NA PAGINA. E o normal, e se faz pelo painel:
+#      desmarque "Publicado no site". O documento some da lista de
+#      Transparencia. O arquivo continua no servidor, e quem tiver
+#      guardado o endereco direto do PDF ainda consegue abrir.
+#
+#   2. TIRAR O ARQUIVO DO SERVIDOR. E o que se faz aqui, e so aqui.
+#      Escreva o caminho do PDF, um por linha, e a proxima publicacao
+#      apaga o arquivo do ar. Depois, apague a linha.
+#
+# Se o documento tinha informacao que nao podia ter sido publicada,
+# o passo 1 nao basta. Precisa dos dois.
+#
+# A automacao NUNCA deduz o que apagar. So apaga o que estiver
+# escrito aqui, e so dentro de transparencia/arquivos/. Nao existe
+# espelhamento, nao existe sincronizacao, nao existe --delete.
+#
+# Exemplo, com o # na frente para nao valer:
+# transparencia/arquivos/demonstrativo-2026.pdf
+# ============================================================
