@@ -110,6 +110,30 @@ como producao.
 
 Desenvolvimento: Creative Marketing Digital + IAieu.
 
+## Decisão definitiva: o GitHub Pages foi desativado
+
+20 de agosto de 2026, por decisão de Caetano Zammataro.
+
+| | |
+|---|---|
+| KingHost | **única hospedagem de produção** |
+| GitHub | repositório, histórico e base de automação |
+| GitHub Pages | **desativado neste repositório** |
+
+O GitHub Pages continuava ligado depois da migração e reconstruía o site a cada
+push, reivindicando o domínio `efbitapira.org` dentro do GitHub. Era uma segunda
+hospedagem que ninguém usava e que ninguém conseguia acessar. Foi desligado.
+
+O que **não** mudou: o repositório, o histórico, os arquivos, o workflow da
+Transparência, o painel do Pages CMS, o DNS, o SSL, o `.htaccess` e o site no ar.
+O Pages CMS nunca dependeu do GitHub Pages. São coisas diferentes com nomes
+parecidos: um é hospedagem do GitHub, o outro é um editor que grava arquivos
+neste repositório.
+
+O arquivo `CNAME` foi mantido de propósito. Ele não faz nada com o Pages
+desligado. **Se o GitHub Pages for reativado algum dia, esse arquivo faz o GitHub
+reivindicar o domínio de novo, sozinho.** Não reative sem saber disso.
+
 ## Como enviar para a KingHost
 
 Comprovado em 20 de agosto de 2026, depois de uma publicação que falhou pela metade.
