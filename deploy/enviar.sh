@@ -33,6 +33,9 @@ roteiro="$(mktemp)"
 trap 'rm -f "$roteiro"' EXIT
 
 {
+  # a conexao e aberta pelo roteiro, e nao pela linha de comando.
+  # assim a senha nao aparece na lista de processos do servidor.
+  echo "open -u \"$KH_FTP_USER,$KH_FTP_PASS\" \"ftp://$KH_FTP_HOST\""
   echo "set ftp:passive-mode true"
   echo "set net:max-retries 2"
   echo "set net:timeout 30"
@@ -62,13 +65,16 @@ if [ "${#remover[@]}" -gt 0 ]; then
   for alvo in "${remover[@]}"; do echo "   xx $alvo"; done
 fi
 
-# a senha entra so aqui, pela variavel, e nunca aparece no log
-if lftp -u "$KH_FTP_USER,$KH_FTP_PASS" "ftp://$KH_FTP_HOST" -f "$roteiro"; then
+# a senha vive so no roteiro temporario, que o mktemp cria fechado
+# e o trap apaga no fim. nunca vai para o log nem para o argv.
+if lftp -f "$roteiro"; then
   echo "ENVIO: concluido."
 else
   echo "ENVIO: FALHOU."
-  echo "  Se a conexao nem abriu, a causa provavel e a POLITICA DE IPS do FTP"
-  echo "  na KingHost, hoje em 'Liberar acesso nacional'. Os servidores do"
-  echo "  GitHub Actions ficam fora do Brasil."
+  echo "  Confira, nesta ordem:"
+  echo "   1. a POLITICA DE IPS do FTP no painel da KingHost. Precisa estar"
+  echo "      em 'Sem nenhum bloqueio', senao o IP do GitHub e recusado."
+  echo "   2. usuario e senha do Secret, se o erro foi 530."
+  echo "   3. se a conta de FTP nao foi desabilitada na aba Seguranca."
   exit 1
 fi
