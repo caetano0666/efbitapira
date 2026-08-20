@@ -176,7 +176,7 @@ section[id]{scroll-margin-top:96px}
 }
 .nav a:hover{color:#fff;border-bottom-color:var(--azul-vivo)}
 .nav a,.topo .btn{white-space:nowrap}
-@media (max-width:1300px){.nav-desk{gap:22px}}
+@media (max-width:1300px){.nav-desk{gap:16px}}
 .topo .btn{min-height:44px;padding:0 22px;font-size:13.5px}
 .menu-btn{display:none;background:none;border:0;padding:10px;color:#fff;cursor:pointer}
 .menu-btn svg{display:block}
@@ -200,6 +200,19 @@ section[id]{scroll-margin-top:96px}
 }
 .gaveta .btn{margin-top:26px;align-self:flex-start;border-bottom:0}
 .fechar{position:absolute;top:calc(20px + env(safe-area-inset-top));right:var(--gut);background:none;border:0;color:#fff;padding:12px;cursor:pointer}
+/* de tablet para cima a gaveta vira painel, nao tela cheia */
+@media (min-width:600px){
+  .gaveta{
+    inset:0 0 auto auto;margin:12px;width:min(340px,52vw);
+    height:auto;max-height:calc(100vh - 24px);
+    border-radius:var(--r);padding:54px 26px 22px;
+    justify-content:flex-start;gap:0;
+    box-shadow:0 22px 60px rgba(0,0,0,.45);
+  }
+  .gaveta a{font-size:16.5px;padding:12px 0}
+  .gaveta .btn{margin-top:18px;align-self:stretch}
+  .fechar{top:8px;right:8px;padding:10px}
+}
 
 /* ============================================================
    1. HERO
