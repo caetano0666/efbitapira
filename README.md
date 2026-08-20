@@ -109,3 +109,19 @@ como producao.
 ---
 
 Desenvolvimento: Creative Marketing Digital + IAieu.
+
+## Como enviar para a KingHost
+
+Comprovado em 20 de agosto de 2026, depois de uma publicação que falhou pela metade.
+
+| | |
+|---|---|
+| host FTP | `ftp.web1137.kinghost.net` |
+| usuário | `efbitapira` |
+| pasta | o login já entra na raiz pública |
+
+**Não acrescente `/www/` ao caminho.** O host `ftp.efbitapira.org` recusou o envio
+da raiz e da pasta `transparencia`.
+
+A KingHost não envia cabeçalho de cache. Para conferir uma publicação, abra o
+endereço com `?cache=0` no fim, senão o navegador mostra a versão antiga.
