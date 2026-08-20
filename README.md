@@ -75,8 +75,36 @@ tempos se surgiu pasta inesperada perto de transparencia/arquivos.
 
 ## Publicação
 
-Hospedado no GitHub Pages, a partir da branch `main`, pasta raiz.
-O domínio efbitapira.org é registrado e pertence à Escolinha.
+**Linha de base vigente desde 20 de agosto de 2026.**
+
+O site é hospedado na **KingHost**, no servidor `191.6.209.227`, e responde em
+**https://efbitapira.org**. O domínio é registrado na GoDaddy e pertence à
+Escolinha, mas o **DNS é administrado pela KingHost**, pelos nameservers
+dns1 a dns6.kinghost.com.br.
+
+Certificado Let's Encrypt ativo, válido para `efbitapira.org` e
+`*.efbitapira.org`, com renovação automática pela KingHost.
+
+Um arquivo `.htaccess` na raiz do site cuida de duas coisas, e só delas:
+todo acesso em HTTP é redirecionado com 301 para HTTPS, e todo acesso pelo
+`www` é redirecionado com 301 para o domínio sem www. Caminho e query string
+são preservados, num único salto.
+
+Estrutura publicada: `/`, `/doacao/` e `/transparencia/`.
+
+### O GitHub NAO e mais a hospedagem
+
+Ate 20/08/2026 o site era publicado pelo GitHub Pages. **Deixou de ser.**
+
+Este repositorio continua sendo a fonte do projeto: o template, o gerador, as
+fotografias, os logotipos e o painel da Transparencia vivem aqui, e o historico
+inteiro esta preservado. Mas o que o visitante enxerga vem da KingHost.
+
+Depois de gerar uma versao nova com `build-home.py`, e preciso **enviar os
+arquivos para a KingHost por FTP**. Publicar so no GitHub nao muda o site no ar.
+
+Nao apague este repositorio, nao apague o historico e nao reative o GitHub Pages
+como producao.
 
 ---
 
