@@ -22,6 +22,15 @@
           "o_que": "Publicação prevista do demonstrativo nesta página",
           "vivo": false
         }
+      ],
+      "documentos": [
+        {
+          "titulo": "TESTE — não é documento real",
+          "descricao": "Teste de aceitação do painel, 21 ago 2026. Será removido.",
+          "arquivo": "/transparencia/arquivos/TESTE-NAO-E-DOCUMENTO-REAL.pdf",
+          "publicado": true,
+          "ordem": 1
+        }
       ]
     }
   ]
