@@ -36,6 +36,9 @@ trap 'rm -f "$roteiro"' EXIT
   # a conexao e aberta pelo roteiro, e nao pela linha de comando.
   # assim a senha nao aparece na lista de processos do servidor.
   echo "open -u \"$KH_FTP_USER,$KH_FTP_PASS\" \"ftp://$KH_FTP_HOST\""
+  # FTP simples, por decisao do dono do projeto. Sem isto o lftp
+  # negocia TLS sozinho e para na verificacao do certificado.
+  echo "set ftp:ssl-allow no"
   echo "set ftp:passive-mode true"
   echo "set net:max-retries 2"
   echo "set net:timeout 30"
