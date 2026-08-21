@@ -22,3 +22,4 @@
 # Exemplo, com o # na frente para nao valer:
 # transparencia/arquivos/demonstrativo-2026.pdf
 # ============================================================
+transparencia/arquivos/TESTE-NAO-E-DOCUMENTO-REAL.pdf
