@@ -22,15 +22,6 @@
           "o_que": "Publicação prevista do demonstrativo nesta página",
           "vivo": false
         }
-      ],
-      "documentos": [
-        {
-          "titulo": "TESTE — NÃO É DOCUMENTO REAL",
-          "descricao": "Documento temporário para validação do painel administrativo.",
-          "arquivo": "/transparencia/arquivos/TESTE-NAO-E-DOCUMENTO-REAL.pdf",
-          "publicado": true,
-          "ordem": 1
-        }
       ]
     }
   ]
