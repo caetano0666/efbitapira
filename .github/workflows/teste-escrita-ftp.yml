@@ -1,0 +1,75 @@
+# TEMPORARIO. Teste controlado de escrita na raiz do FTP.
+# Autentica, lista, cria um arquivo, confirma, apaga e confirma.
+# Nao cria pasta. Nao toca em nenhum arquivo do site. Removido depois.
+name: Teste de escrita FTP
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  testar:
+    runs-on: ubuntu-latest
+    env:
+      H: ${{ secrets.KH_FTP_HOST }}
+      U: ${{ secrets.KH_FTP_USER }}
+      P: ${{ secrets.KH_FTP_PASS }}
+    steps:
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+
+      - name: 1. Autenticar e listar a raiz
+        run: |
+          r=$(mktemp); trap 'rm -f "$r"' EXIT
+          {
+            echo "open -u \"$U,$P\" \"ftp://$H\""
+            echo "set ftp:ssl-allow no"
+            echo "set ftp:passive-mode true"
+            echo "ls -la"
+            echo "bye"
+          } > "$r"
+          lftp -f "$r"
+          echo "AUTENTICACAO E LISTAGEM: PASSOU"
+
+      - name: 2. Criar teste-github.txt e confirmar
+        run: |
+          echo "teste do GitHub Actions em 21/08/2026, pode apagar" > teste-github.txt
+          r=$(mktemp); trap 'rm -f "$r"' EXIT
+          {
+            echo "open -u \"$U,$P\" \"ftp://$H\""
+            echo "set ftp:ssl-allow no"
+            echo "set ftp:passive-mode true"
+            echo "put teste-github.txt -o teste-github.txt"
+            echo "echo --- confirmacao: o arquivo aparece na listagem ---"
+            echo "ls -la teste-github.txt"
+            echo "bye"
+          } > "$r"
+          lftp -f "$r"
+          echo "CRIACAO: PASSOU"
+
+      - name: 3. Apagar imediatamente e confirmar
+        if: always()
+        run: |
+          r=$(mktemp); trap 'rm -f "$r"' EXIT
+          {
+            echo "open -u \"$U,$P\" \"ftp://$H\""
+            echo "set ftp:ssl-allow no"
+            echo "set ftp:passive-mode true"
+            echo "rm -f teste-github.txt"
+            echo "bye"
+          } > "$r"
+          lftp -f "$r"
+
+          # a confirmacao correta e o arquivo NAO existir mais
+          v=$(mktemp); trap 'rm -f "$r" "$v"' EXIT
+          {
+            echo "open -u \"$U,$P\" \"ftp://$H\""
+            echo "set ftp:ssl-allow no"
+            echo "set ftp:passive-mode true"
+            echo "ls -la teste-github.txt"
+            echo "bye"
+          } > "$v"
+          if lftp -f "$v" 2>/dev/null; then
+            echo "REMOCAO: FALHOU, o arquivo ainda esta la"
+            exit 1
+          else
+            echo "REMOCAO: PASSOU, o arquivo nao existe mais"
+          fi
