@@ -1,0 +1,96 @@
+# ============================================================
+# PUBLICAR O PAINEL
+#
+# Leva o painel administrativo para /admin/ no servidor da
+# KingHost e monta ali o config.php, com o token e a senha vindos
+# dos Secrets. Nenhum segredo entra no repositorio e nenhum
+# segredo chega ao navegador.
+#
+# Nao toca no site: a home, a doacao, a Transparencia publica, o
+# .htaccess e as pastas existentes ficam fora da lista de envio.
+# Este processo e separado do "Publicar na KingHost" de proposito,
+# para nao mexer no que ja foi validado.
+# ============================================================
+
+name: Publicar o painel
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmar:
+        description: 'Digite PUBLICAR para confirmar'
+        required: true
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publicar-painel
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    environment: producao
+    steps:
+      - name: Conferir a confirmacao digitada
+        run: |
+          if [ "${{ inputs.confirmar }}" != "PUBLICAR" ]; then
+            echo "Confirmacao ausente ou errada. Digite PUBLICAR."
+            exit 1
+          fi
+
+      - uses: actions/checkout@v4
+
+      - name: Conferir se os Secrets do painel existem
+        env:
+          T: ${{ secrets.EFB_PAINEL_GH_TOKEN }}
+          S: ${{ secrets.EFB_PAINEL_SENHA }}
+        run: |
+          faltou=0
+          [ -z "$T" ] && { echo "Falta o Secret EFB_PAINEL_GH_TOKEN."; faltou=1; }
+          [ -z "$S" ] && { echo "Falta o Secret EFB_PAINEL_SENHA.";    faltou=1; }
+          [ "$faltou" -eq 0 ] || exit 1
+
+      - name: Instalar PHP e lftp
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq php-cli lftp
+
+      - name: Conferir a sintaxe do painel
+        run: |
+          erro=0
+          while IFS= read -r f; do
+            php -l "$f" >/dev/null || { echo "erro de sintaxe: $f"; erro=1; }
+          done < <(find admin -name '*.php' -not -name 'config.php')
+          [ "$erro" -eq 0 ] || exit 1
+          echo "Todos os arquivos PHP do painel estao sintaticamente corretos."
+
+      - name: Montar o config.php a partir dos Secrets
+        env:
+          T: ${{ secrets.EFB_PAINEL_GH_TOKEN }}
+          S: ${{ secrets.EFB_PAINEL_SENHA }}
+        run: |
+          # a senha vira hash aqui dentro. o servidor nunca guarda o texto.
+          php -r '
+            $cfg = [
+              "repo"  => "caetano0666/efbitapira",
+              "ramo"  => "main",
+              "token" => getenv("T"),
+              "senha" => password_hash(getenv("S"), PASSWORD_DEFAULT),
+            ];
+            file_put_contents("admin/config.php", "<?php\nreturn " . var_export($cfg, true) . ";\n");
+          '
+          php -l admin/config.php >/dev/null
+          echo "config.php montado, $(wc -c < admin/config.php) bytes. Nao vai para o repositorio."
+
+      - name: Enviar o painel por FTP
+        env:
+          KH_FTP_HOST: ${{ secrets.KH_FTP_HOST }}
+          KH_FTP_USER: ${{ secrets.KH_FTP_USER }}
+          KH_FTP_PASS: ${{ secrets.KH_FTP_PASS }}
+        run: bash deploy/enviar-painel.sh
+
+      - name: Conferir o painel no ar
+        run: bash deploy/conferir-painel.sh
