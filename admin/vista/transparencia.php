@@ -1,4 +1,5 @@
 <?php
+if (!defined('PAINEL')) { http_response_code(404); exit; }
 $novo   = ($_GET['novo'] ?? '') !== '';
 $forma  = $novo || $editando !== null;
 $titulo = $forma ? ($editando ? 'Editar documento' : 'Novo documento') : 'Documentos';

@@ -13,6 +13,9 @@
 
 declare(strict_types=1);
 
+// as pecas internas so rodam a partir daqui
+define('PAINEL', true);
+
 $raiz = __DIR__;
 if (!is_file($raiz . '/config.php')) {
     http_response_code(500);

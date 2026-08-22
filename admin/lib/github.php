@@ -14,6 +14,8 @@
  * disciplina de quem escreveu a tela.
  */
 
+if (!defined('PAINEL')) { http_response_code(404); exit; }
+
 const GH_LISTA   = 'transparencia/documentos.json';
 const GH_PASTA   = 'transparencia/arquivos';
 const GH_PDF_MAX = 12 * 1024 * 1024;   // 12 MB

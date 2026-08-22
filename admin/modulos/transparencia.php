@@ -10,6 +10,8 @@
  * do que ainda nao existe aparece na interface.
  */
 
+if (!defined('PAINEL')) { http_response_code(404); exit; }
+
 /** Devolve todos os documentos, achatados, com o indice do periodo. */
 function tr_documentos(array $dados): array {
     $saida = [];

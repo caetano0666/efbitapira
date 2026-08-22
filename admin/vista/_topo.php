@@ -1,3 +1,4 @@
+<?php if (!defined('PAINEL')) { http_response_code(404); exit; } ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>

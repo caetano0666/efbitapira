@@ -1,6 +1,8 @@
 <?php
 /** Funcoes pequenas que a tela usa o tempo todo. */
 
+
+if (!defined('PAINEL')) { http_response_code(404); exit; }
 function e(?string $s): string { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
 
 function limitar(string $texto, int $limite): string {

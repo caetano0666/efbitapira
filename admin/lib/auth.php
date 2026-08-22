@@ -7,6 +7,8 @@
  * vive no servidor, guardada como hash, e nunca sai dele.
  */
 
+if (!defined('PAINEL')) { http_response_code(404); exit; }
+
 const AUTH_TENTATIVAS = 5;
 const AUTH_ESPERA     = 300;   // 5 minutos de castigo
 

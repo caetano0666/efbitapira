@@ -1,9 +1,15 @@
-# Nada aqui e servido como texto. O config, que guarda o token e a
-# senha, nunca pode ser lido pelo navegador.
-<FilesMatch "^(config|config\.exemplo)\.php$">
-  Require all denied
-</FilesMatch>
-<FilesMatch "\.(md|log|json)$">
-  Require all denied
-</FilesMatch>
+# Só o index.php e os arquivos estáticos podem ser alcançados pelo
+# navegador. O resto é peça interna do painel e não tem por que
+# responder a ninguém.
 Options -Indexes
+
+<FilesMatch "^config(\.exemplo)?\.php$">
+  Require all denied
+</FilesMatch>
+
+<FilesMatch "\.(md|log|json|yml|yaml)$">
+  Require all denied
+</FilesMatch>
+
+# as pastas internas não são endereço público
+RedirectMatch 404 ^/admin/(lib|modulos|vista)/
