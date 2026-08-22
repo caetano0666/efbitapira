@@ -1,5 +1,8 @@
-<?php $titulo = 'Entrar'; require __DIR__ . '/_topo.php'; ?>
+<?php
 if (!defined('PAINEL')) { http_response_code(404); exit; }
+$titulo = 'Entrar';
+require __DIR__ . '/_topo.php';
+?>
 <main class="porta">
   <header class="topo">
     <p class="rotulo">Painel</p>
