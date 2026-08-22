@@ -28,7 +28,7 @@
                     "arquivo": "/transparencia/arquivos/teste-n-o-documento-real.pdf",
                     "titulo": "TESTE — não é documento real",
                     "descricao": "Documento de teste do painel proprio. Editado no teste. Sera removido.",
-                    "publicado": true,
+                    "publicado": false,
                     "ordem": 1
                 }
             ]
