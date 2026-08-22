@@ -22,15 +22,6 @@
                     "o_que": "Publicação prevista do demonstrativo nesta página",
                     "vivo": false
                 }
-            ],
-            "documentos": [
-                {
-                    "arquivo": "/transparencia/arquivos/teste-n-o-documento-real.pdf",
-                    "titulo": "TESTE — não é documento real",
-                    "descricao": "Documento de teste do painel proprio. Editado no teste. Sera removido.",
-                    "publicado": false,
-                    "ordem": 1
-                }
             ]
         }
     ]
