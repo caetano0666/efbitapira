@@ -10,9 +10,19 @@ function limitar(string $texto, int $limite): string {
     return mb_substr($texto, 0, $limite, 'UTF-8');
 }
 
-/** Transforma o nome do documento num nome de arquivo seguro. */
+/**
+ * Transforma o nome do documento num nome de arquivo seguro.
+ * A troca de acentos e feita a mao: o iconv depende da instalacao
+ * do servidor e chegou a comer o "a" de "nao", virando "n-o".
+ */
 function apelido(string $texto): string {
-    $t = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $texto);
+    $de = ['á','à','â','ã','ä','é','è','ê','ë','í','ì','î','ï','ó','ò','ô','õ','ö',
+           'ú','ù','û','ü','ç','ñ','Á','À','Â','Ã','Ä','É','È','Ê','Ë','Í','Ì','Î',
+           'Ï','Ó','Ò','Ô','Õ','Ö','Ú','Ù','Û','Ü','Ç','Ñ'];
+    $para = ['a','a','a','a','a','e','e','e','e','i','i','i','i','o','o','o','o','o',
+             'u','u','u','u','c','n','a','a','a','a','a','e','e','e','e','i','i','i',
+             'i','o','o','o','o','o','u','u','u','u','c','n'];
+    $t = str_replace($de, $para, $texto);
     $t = strtolower(preg_replace('/[^a-zA-Z0-9]+/', '-', $t));
     $t = trim($t, '-');
     if ($t === '') $t = 'documento';

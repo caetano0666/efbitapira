@@ -29,6 +29,38 @@ mapfile -t arquivos < <(bash "$aqui/montar-lista.sh")
 
 mapfile -t remover < <(grep -vE '^\s*(#|$)' "$aqui/remover.txt" || true)
 
+# ------------------------------------------------------------
+# PDF QUE SAIU DO REPOSITORIO SAI DO SERVIDOR TAMBEM
+#
+# Quando alguem exclui um documento pelo painel, o PDF deixa de
+# existir no repositorio. Sem isto ele continuaria no ar, e a tela
+# promete o contrario.
+#
+# Isto NAO e espelhamento. Alcanca uma unica pasta,
+# transparencia/arquivos, e so arquivos .pdf. Nenhuma outra pasta
+# e sequer listada, e o .htaccess, a home e a doacao nao podem ser
+# tocados por este caminho.
+# ------------------------------------------------------------
+orfaos=()
+listar="$(mktemp)"
+{
+  echo "open -u \"$KH_FTP_USER,$KH_FTP_PASS\" \"ftp://$KH_FTP_HOST\""
+  echo "set ftp:ssl-allow no"
+  echo "set ftp:passive-mode true"
+  echo "set net:max-retries 1"
+  echo "cls -1 transparencia/arquivos/"
+  echo "bye"
+} > "$listar"
+
+while IFS= read -r remoto; do
+  nome="$(basename "${remoto%/}")"
+  # so pdf, so nome simples. qualquer outra coisa e ignorada.
+  [[ "$nome" =~ ^[a-z0-9][a-z0-9._-]*\.pdf$ ]] || continue
+  [ -f "$raiz/transparencia/arquivos/$nome" ] && continue
+  orfaos+=("transparencia/arquivos/$nome")
+done < <(lftp -f "$listar" 2>/dev/null || true)
+rm -f "$listar"
+
 roteiro="$(mktemp)"
 trap 'rm -f "$roteiro"' EXIT
 
@@ -57,6 +89,9 @@ trap 'rm -f "$roteiro"' EXIT
   for alvo in "${remover[@]}"; do
     echo "rm -f \"$alvo\""
   done
+  for alvo in "${orfaos[@]}"; do
+    echo "rm -f \"$alvo\""
+  done
 
   echo "bye"
 } > "$roteiro"
@@ -66,6 +101,10 @@ for arq in "${arquivos[@]}"; do echo "   -> $arq"; done
 if [ "${#remover[@]}" -gt 0 ]; then
   echo "ENVIO: ${#remover[@]} arquivos a despublicar"
   for alvo in "${remover[@]}"; do echo "   xx $alvo"; done
+fi
+if [ "${#orfaos[@]}" -gt 0 ]; then
+  echo "ENVIO: ${#orfaos[@]} PDFs que sairam do repositorio e saem do servidor"
+  for alvo in "${orfaos[@]}"; do echo "   xx $alvo"; done
 fi
 
 # a senha vive so no roteiro temporario, que o mktemp cria fechado
