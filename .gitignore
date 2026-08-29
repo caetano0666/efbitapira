@@ -7,3 +7,10 @@ _partes/
 _tr.zip
 __pycache__/
 admin/config.php
+
+# Material de referencia e entrada que nunca deve ir para o repositorio publico.
+# O PDF do manual do Pix pesa 2,7 MB. A pasta abaixo tem barras no nome, o que o
+# Finder mostra como se fosse caminho, e guarda os arquivos originais dos
+# parceiros e da equipe. Uma vez no historico, nao sai mais.
+I_manual_uso_marca_pix.pdf
+escolinha-batista:_entrada:equipe:/

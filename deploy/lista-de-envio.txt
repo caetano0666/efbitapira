@@ -20,3 +20,19 @@ index.html
 doacao/index.html
 transparencia/index.html
 equipe/index.html
+
+# As marcas dos parceiros. Arquivos externos, servidos direto, com
+# carregamento preguicoso. Nao entram em base64 de proposito: embutidos
+# levariam a home de 2,26 MB para 7,53 MB.
+#
+# Baseline congelada em 29/08/2026, conferida por SHA-256. Trocar
+# qualquer um destes exige nova conferencia de hash.
+parceiros/adriele-farma.png
+parceiros/coc-itapira.png
+parceiros/focus-corretora.png
+parceiros/gabriela-ferraz.jpeg
+parceiros/glasscamp.png
+parceiros/imperium-lash-store.png
+parceiros/maximus-servicos.jpeg
+parceiros/moggi-empilhadeiras.jpeg
+parceiros/phenom-idiomas.png

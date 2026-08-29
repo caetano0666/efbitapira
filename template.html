@@ -367,11 +367,92 @@ section[id]{scroll-margin-top:96px}
 /* ============================================================
    7. PARCEIROS
    ============================================================ */
-.logos{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  gap:clamp(12px,1.4vw,20px);margin-top:clamp(40px,5vw,58px);max-width:900px;
+/* Grade invisivel de tres colunas. Sem cartao, sem borda, sem sombra.
+   As marcas respiram direto no claro.
+
+   Cada logo tem escala propria, por ajuste optico e nao por conta. O
+   criterio: nenhuma pode parecer patrocinador principal nem secundario
+   por causa do formato do arquivo que a empresa mandou.
+
+   As quatro pecas que trazem fundo proprio ficam nas posicoes 2, 4, 6 e
+   8, formando tabuleiro, e nunca encostam uma na outra. A alternancia
+   entre claro e escuro passa a ser desenho, e nao sobra dos arquivos.
+
+   ATENCAO. Os nove arquivos em parceiros/ sao baseline congelada,
+   conferida por SHA-256 em 29/08/2026. Nao reprocessar, nao recortar,
+   nao recomprimir, nao converter. Escala e posicao se resolvem aqui.
+   Eles sao servidos como arquivos externos de proposito: embutidos em
+   base64 levariam a home de 2,26 MB para 7,53 MB. */
+.pa{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  column-gap:clamp(24px,4vw,56px);row-gap:clamp(52px,6.5vw,88px);
+  /* respiro entre o bloco de abertura e a primeira fileira.
+     17% menor que o original, so no desktop. no celular o valor
+     antigo e restaurado dentro do media query, para nada mudar la. */
+  margin-top:clamp(50px,6.2vw,86px);
 }
-.logo-slot{aspect-ratio:16/7;border-radius:var(--r);background:rgba(15,76,129,.05)}
+.pa__i{display:flex;align-items:center;justify-content:center;min-width:0}
+.pa__i img{height:auto;display:block}
+/* superficie de apoio, atras da marca. a Phenom so tem versao branca,
+   feita para fundo escuro, e some no claro. a arte nao e tocada. */
+.pa__apoio{
+  display:block;background:var(--azul-profundo);
+  padding:clamp(12px,1.6vw,22px) clamp(16px,2.2vw,30px);
+}
+.pa__apoio img{width:100%}
+.i-adriele img{width:42.0%}
+.i-gabriela img{width:38.5%}
+.i-coc img{width:50.0%}
+.i-maximus img{width:35.0%}
+/* a Moggi entra com o arquivo original do cliente, que tem margem
+   branca em volta. as margens negativas tiram esse branco da conta do
+   layout: a marca fica do mesmo tamanho e a fileira nao cresce. */
+.i-moggi img{width:44.1%;margin-top:-1.736%;margin-bottom:-0.661%}
+.i-lash img{width:38.5%}
+.i-focus img{width:51.0%}
+.i-phenom .pa__apoio{width:49.0%}
+.i-glasscamp img{width:64.0%}
+
+.pa-fecho{
+  margin-top:clamp(68px,8vw,104px);padding-top:clamp(32px,3.6vw,44px);
+  border-top:1px solid var(--borda);
+  display:flex;align-items:baseline;justify-content:space-between;gap:32px;flex-wrap:wrap;
+}
+.pa-fecho p{
+  font-family:"Archivo",sans-serif;font-weight:700;
+  font-size:clamp(20px,2.4vw,27px);line-height:1.22;letter-spacing:-.018em;
+  margin:0;max-width:22ch;
+}
+
+/* Duas colunas com ritmo proprio: compacta mais compacta, depois uma
+   horizontal atravessando. A ordem no celular nao e a do desktop, e e
+   de proposito: o ritmo so fecha assim. */
+@media (max-width:900px){
+  .pa{grid-template-columns:repeat(2,minmax(0,1fr));
+      column-gap:clamp(22px,5vw,40px);row-gap:clamp(44px,7vw,60px);
+      margin-top:clamp(60px,7.5vw,104px)}
+  .pa__i--larga{grid-column:1 / -1}
+  .i-adriele{order:1}
+  .i-gabriela{order:2}
+  .i-coc{order:3}
+  .i-maximus{order:4}
+  .i-moggi{order:5}
+  .i-glasscamp{order:6}
+  .i-lash{order:7}
+  .i-focus{order:8}
+  .i-phenom{order:9}
+  .i-adriele img{width:80.0%}
+  .i-gabriela img{width:76.0%}
+  .i-coc img{width:45.0%}
+  .i-maximus img{width:70.0%}
+  .i-moggi img{width:87.0%;margin-top:-3.367%;margin-bottom:-1.283%}
+  .i-lash img{width:76.0%}
+  .i-focus img{width:86.0%}
+  .i-phenom .pa__apoio{width:38.0%}
+  .i-glasscamp img{width:58.0%}
+  .pa-fecho{flex-direction:column;align-items:stretch}
+  .pa-fecho .btn{align-self:flex-start}
+}
 
 /* ============================================================
    8. FACA PARTE
@@ -472,7 +553,6 @@ section[id]{scroll-margin-top:96px}
   .hist>*{grid-column:1;grid-row:auto}
   .verdade__grid .foto{aspect-ratio:4/3;height:auto;min-height:0}
   .caminhos{grid-template-columns:1fr}
-  .logos{grid-template-columns:repeat(2,1fr)}
   .pe__in{grid-template-columns:1fr 1fr}
   .pe__in>div:first-child{grid-column:1/-1}
   .gal{grid-template-columns:repeat(4,1fr);grid-auto-rows:clamp(88px,16vw,130px)}
@@ -728,14 +808,20 @@ section[id]{scroll-margin-top:96px}
       </div>
     </div>
 
-    <div class="logos" aria-label="Espaço reservado para as marcas dos parceiros">
-      <div class="logo-slot"></div>
-      <div class="logo-slot"></div>
-      <div class="logo-slot"></div>
-      <div class="logo-slot"></div>
+    <div class="pa">
+      <div class="pa__i i-adriele"><img src="/parceiros/adriele-farma.png" alt="Adriele Farma" loading="lazy" decoding="async"></div>
+      <div class="pa__i i-gabriela"><img src="/parceiros/gabriela-ferraz.jpeg" alt="Gabriela Ferraz" loading="lazy" decoding="async"></div>
+      <div class="pa__i i-coc pa__i--larga"><img src="/parceiros/coc-itapira.png" alt="COC Itapira" loading="lazy" decoding="async"></div>
+      <div class="pa__i i-maximus"><img src="/parceiros/maximus-servicos.jpeg" alt="Maximus Serviços" loading="lazy" decoding="async"></div>
+      <div class="pa__i i-moggi"><img src="/parceiros/moggi-empilhadeiras.jpeg" alt="Moggi Empilhadeiras" loading="lazy" decoding="async"></div>
+      <div class="pa__i i-lash"><img src="/parceiros/imperium-lash-store.png" alt="Imperium Lash Store" loading="lazy" decoding="async"></div>
+      <div class="pa__i i-focus"><img src="/parceiros/focus-corretora.png" alt="Focus Corretora de Seguros" loading="lazy" decoding="async"></div>
+      <div class="pa__i i-phenom pa__i--larga"><span class="pa__apoio"><img src="/parceiros/phenom-idiomas.png" alt="Phenom Idiomas" loading="lazy" decoding="async"></span></div>
+      <div class="pa__i i-glasscamp pa__i--larga"><img src="/parceiros/glasscamp.png" alt="GlassCamp" loading="lazy" decoding="async"></div>
     </div>
 
-    <div class="btns">
+    <div class="pa-fecho">
+      <p>Sua empresa também pode entrar em campo.</p>
       <a href="#fazer-parte" class="btn btn--p">Quero ser parceiro</a>
     </div>
   </div>
