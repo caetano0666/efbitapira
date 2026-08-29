@@ -19,3 +19,4 @@
 index.html
 doacao/index.html
 transparencia/index.html
+equipe/index.html

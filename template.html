@@ -176,6 +176,29 @@ section[id]{scroll-margin-top:96px}
 }
 .nav a:hover{color:#fff;border-bottom-color:var(--azul-vivo)}
 .nav a,.topo .btn{white-space:nowrap}
+/* caminho direto da doacao. mora dentro da barra, nunca flutua.
+   peso visual menor que o botao: o botao e o convite amplo, este
+   e a porta especifica.
+
+   O simbolo e o vetor oficial do Banco Central, extraido do Manual
+   de Uso da Marca Pix v1.6. Tres regras do manual mandam aqui:
+
+   1. Reducao maxima. Em midias digitais o simbolo nao pode ficar
+      menor que 24px de comprimento (pagina 13). Por isso 24px fixos,
+      no cabecalho e na gaveta. Nao diminua.
+   2. Area de protecao. X/2 livre em volta, onde X e a faixa central
+      do simbolo, 0,425 do comprimento (pagina 13). Em 24px isso da
+      5,1px. A folga de 8px no cabecalho e 12px na gaveta cobre.
+   3. Cores. Em ambiente misto so verde Pix, preto, ou branco em
+      fundo escuro (pagina 15). O cabecalho e a gaveta sao escuros,
+      entao branco puro. Nao use currentColor: o link e branco a 86%,
+      que seria um matiz nao autorizado.
+
+   Proibido no simbolo: gradiente, sombra, outline, efeito e
+   distorcao. A escala e uniforme, pelo preserveAspectRatio padrao. */
+.doar{display:inline-flex;align-items:center;gap:8px}
+.doar .doar__pix{flex:none;display:block;width:24px;height:24px}
+.gaveta .doar{gap:12px}
 @media (max-width:1300px){.nav-desk{gap:16px}}
 .topo .btn{min-height:44px;padding:0 22px;font-size:13.5px}
 .menu-btn{display:none;background:none;border:0;padding:10px;color:#fff;cursor:pointer}
@@ -487,12 +510,11 @@ section[id]{scroll-margin-top:96px}
     <nav class="nav nav-desk" aria-label="Navegação principal">
       <a href="#alem">A Escolinha</a>
       <a href="#historia">História</a>
-      <a href="#conquistas">Conquistas</a>
-      <a href="#galeria">Galeria</a>
+      <a href="/equipe/">Equipe</a>
       <a href="#parceiros">Parceiros</a>
-      <a href="/doacao/">Doação</a>
       <a href="/transparencia/">Transparência</a>
-      <a href="#fazer-parte" class="btn btn--p">Quero apoiar</a>
+      <a href="/doacao/" class="doar" aria-label="Doar pelo Pix"><svg class="doar__pix" width="24" height="24" viewBox="0 0 116.890625 116.886718" fill="#fff" aria-hidden="true"><path fill-rule="nonzero" d="M 26.675781 88.523437 C 31.128906 88.523437 35.316406 86.792968 38.46875 83.644531 L 55.496093 66.617187 C 56.691406 65.417968 58.773437 65.421875 59.96875 66.617187 L 77.058593 83.707031 C 80.207031 86.851562 84.394531 88.585937 88.851562 88.585937 L 92.207031 88.585937 L 70.640625 110.152344 C 63.90625 116.886718 52.984375 116.886718 46.25 110.152344 L 24.625 88.523437 Z M 26.675781 88.523437 "/><path fill-rule="nonzero" d="M 88.851562 28.296875 C 84.394531 28.296875 80.207031 30.03125 77.058593 33.179687 L 59.96875 50.273437 C 58.738281 51.503906 56.730469 51.507812 55.496093 50.269531 L 38.46875 33.242187 C 35.316406 30.09375 31.128906 28.359375 26.675781 28.359375 L 24.625 28.359375 L 46.25 6.734375 C 52.984375 0 63.90625 0 70.640625 6.734375 L 92.203125 28.296875 Z M 88.851562 28.296875 "/><path fill-rule="nonzero" d="M 6.738281 46.246094 L 19.617187 33.367187 L 26.675781 33.367187 C 29.746093 33.367187 32.753906 34.613281 34.925781 36.785156 L 51.953125 53.8125 C 53.546875 55.40625 55.640625 56.203125 57.730469 56.203125 C 59.824219 56.203125 61.914062 55.40625 63.507812 53.8125 L 80.601562 36.722656 C 82.769531 34.550781 85.777343 33.304687 88.851562 33.304687 L 97.210937 33.304687 L 110.15625 46.246094 C 116.890625 52.984375 116.890625 63.902344 110.15625 70.636718 L 97.210937 83.582031 L 88.851562 83.582031 C 85.777343 83.582031 82.769531 82.335937 80.601562 80.164062 L 63.511719 63.074218 C 60.421875 59.988281 55.039062 59.984375 51.953125 63.074218 L 34.925781 80.101562 C 32.753906 82.273437 29.746093 83.519531 26.675781 83.519531 L 19.617187 83.519531 L 6.738281 70.636718 C 0 63.902344 0 52.984375 6.738281 46.246094"/></svg>Doar</a>
+      <a href="#fazer-parte" class="btn btn--p">Faça parte</a>
     </nav>
     <button class="menu-btn" id="abrir" aria-label="Abrir menu" aria-expanded="false" aria-controls="gaveta">
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
@@ -506,13 +528,11 @@ section[id]{scroll-margin-top:96px}
   </button>
   <a href="#alem">A Escolinha</a>
   <a href="#historia">História</a>
-  <a href="#conquistas">Conquistas</a>
-  <a href="#galeria">Galeria</a>
+  <a href="/equipe/">Equipe</a>
   <a href="#parceiros">Parceiros</a>
-  <a href="/doacao/">Doação</a>
   <a href="/transparencia/">Transparência</a>
-  <a href="#fazer-parte">Faça parte</a>
-  <a href="#fazer-parte" class="btn btn--p">Quero apoiar</a>
+  <a href="/doacao/" class="doar" aria-label="Doar pelo Pix"><svg class="doar__pix" width="24" height="24" viewBox="0 0 116.890625 116.886718" fill="#fff" aria-hidden="true"><path fill-rule="nonzero" d="M 26.675781 88.523437 C 31.128906 88.523437 35.316406 86.792968 38.46875 83.644531 L 55.496093 66.617187 C 56.691406 65.417968 58.773437 65.421875 59.96875 66.617187 L 77.058593 83.707031 C 80.207031 86.851562 84.394531 88.585937 88.851562 88.585937 L 92.207031 88.585937 L 70.640625 110.152344 C 63.90625 116.886718 52.984375 116.886718 46.25 110.152344 L 24.625 88.523437 Z M 26.675781 88.523437 "/><path fill-rule="nonzero" d="M 88.851562 28.296875 C 84.394531 28.296875 80.207031 30.03125 77.058593 33.179687 L 59.96875 50.273437 C 58.738281 51.503906 56.730469 51.507812 55.496093 50.269531 L 38.46875 33.242187 C 35.316406 30.09375 31.128906 28.359375 26.675781 28.359375 L 24.625 28.359375 L 46.25 6.734375 C 52.984375 0 63.90625 0 70.640625 6.734375 L 92.203125 28.296875 Z M 88.851562 28.296875 "/><path fill-rule="nonzero" d="M 6.738281 46.246094 L 19.617187 33.367187 L 26.675781 33.367187 C 29.746093 33.367187 32.753906 34.613281 34.925781 36.785156 L 51.953125 53.8125 C 53.546875 55.40625 55.640625 56.203125 57.730469 56.203125 C 59.824219 56.203125 61.914062 55.40625 63.507812 53.8125 L 80.601562 36.722656 C 82.769531 34.550781 85.777343 33.304687 88.851562 33.304687 L 97.210937 33.304687 L 110.15625 46.246094 C 116.890625 52.984375 116.890625 63.902344 110.15625 70.636718 L 97.210937 83.582031 L 88.851562 83.582031 C 85.777343 83.582031 82.769531 82.335937 80.601562 80.164062 L 63.511719 63.074218 C 60.421875 59.988281 55.039062 59.984375 51.953125 63.074218 L 34.925781 80.101562 C 32.753906 82.273437 29.746093 83.519531 26.675781 83.519531 L 19.617187 83.519531 L 6.738281 70.636718 C 0 63.902344 0 52.984375 6.738281 46.246094"/></svg>Doar</a>
+  <a href="#fazer-parte" class="btn btn--p">Faça parte</a>
 </div>
 
 <main>
@@ -792,6 +812,7 @@ section[id]{scroll-margin-top:96px}
           <li><a href="https://www.instagram.com/escolinha_futebolbatista/" target="_blank" rel="noopener">Instagram</a></li>
           <li><a href="/doacao/">Doar pelo PIX</a></li>
           <li><a href="/transparencia/">Transparência</a></li>
+          <li><a href="/equipe/">Equipe</a></li>
           <li><a href="#fazer-parte">Contato</a></li>
           <li><a href="#parceiros">Parceiros</a></li>
         </ul>

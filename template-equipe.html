@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Equipe | Escolinha de Futebol Batista de Itapira</title>
+<meta name="description" content="As pessoas por trás da Escolinha de Futebol Batista de Itapira. Diretoria, conselho fiscal, comissão técnica, apoio jurídico e professores de educação física.">
+<link rel="canonical" href="https://efbitapira.org/equipe/">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#061E38">
+<style>
+/*ESTILO_BASE*/
+
+/* ============================================================
+   PAGINA DA EQUIPE
+   mesmos tokens, tipografia e componentes do site
+
+   Cada grupo e uma composicao propria, nao uma grade continua de
+   catorze posicoes. As colunas tem sempre a mesma largura, entao
+   nenhum retrato fica maior que outro, e um grupo de dois ocupa
+   duas colunas e deixa as outras vazias. Nada e completado para
+   fechar fileira.
+   ============================================================ */
+
+/* abertura */
+.eq-abre{padding-block:clamp(60px,8vw,116px)}
+.eq-abre h1{font-size:clamp(32px,5vw,62px);line-height:1.04;letter-spacing:-.024em;max-width:15ch;margin:0 0 30px}
+.eq-abre p{font-size:clamp(17px,1.7vw,20.5px);line-height:1.62;color:#B9CCE0;max-width:56ch;margin:0}
+
+/* os grupos */
+.eq-grupos{padding-block:clamp(52px,6.5vw,92px)}
+.eq-grupo + .eq-grupo{margin-top:clamp(46px,6vw,88px)}
+.eq-grupo__t{
+  font-family:"Archivo",sans-serif;font-weight:700;font-size:11.5px;
+  line-height:1.65;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--azul-claro);text-wrap:wrap;
+  margin:0 0 clamp(18px,2vw,26px);
+}
+
+.eq-pessoas{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  column-gap:clamp(14px,2vw,26px);row-gap:clamp(24px,3vw,36px);
+}
+@media (min-width:620px){.eq-pessoas{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (min-width:920px){.eq-pessoas{grid-template-columns:repeat(4,minmax(0,1fr))}}
+
+/* Grupo de quatro compoe em duas linhas de dois. A terceira pessoa
+   volta para a primeira coluna e leva a quarta junto. A coluna
+   continua com a mesma largura de todos os outros grupos, entao
+   nenhum retrato muda de tamanho. */
+@media (min-width:620px){
+  .eq-pessoas--duplas .eq-pessoa:nth-child(3){grid-column:1}
+}
+
+.eq-pessoa{min-width:0}
+.eq-pessoa img{display:block;width:100%;height:auto;background:var(--cinza-medio)}
+.eq-pessoa__n{
+  font-family:"Archivo",sans-serif;font-weight:700;
+  font-size:clamp(15.5px,1.5vw,17.5px);line-height:1.28;letter-spacing:-.012em;
+  color:var(--texto);text-wrap:wrap;margin:14px 0 3px;
+}
+.eq-pessoa__c{font-size:13.5px;line-height:1.4;color:var(--texto-suave);margin:0}
+
+/* uma nota do grupo, na mesma escala e na mesma cor do cargo */
+.eq-grupo__nota{
+  font-size:13.5px;line-height:1.5;color:var(--texto-suave);
+  margin:clamp(16px,2vw,22px) 0 0;max-width:52ch;
+}
+</style>
+</head>
+<body>
+
+<!--CABECALHO-->
+
+<!--GAVETA-->
+
+<main>
+
+<!-- ============ ABERTURA ============ -->
+<section class="sec sec--escuro eq-abre">
+  <div class="wrap">
+    <p class="rotulo">Quem faz</p>
+    <h1>As pessoas por trás da Escolinha</h1>
+    <p>A Escolinha é uma associação. Tem diretoria, conselho fiscal, comissão técnica, apoio jurídico e professores de educação física.</p>
+  </div>
+</section>
+
+<!-- ============ OS GRUPOS ============ -->
+<section class="sec eq-grupos">
+  <div class="wrap">
+    <!--GRUPOS-->
+  </div>
+</section>
+
+</main>
+
+<!--RODAPE-->
+
+<!--SCRIPT-->
+</body>
+</html>
