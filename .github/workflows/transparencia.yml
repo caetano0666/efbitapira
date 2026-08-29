@@ -48,8 +48,21 @@ jobs:
         with:
           node-version: '20'
 
+      # Versao TRAVADA, e nao por preciosismo.
+      #
+      # Sem numero, o npm instala a mais recente do dia. As fontes entram
+      # embutidas na pagina em base64, entao um @fontsource novo muda os
+      # bytes do arquivo gerado. Este processo commita quando a pagina
+      # muda e publica em seguida. Resultado: no dia em que sair uma
+      # versao nova, o proximo PDF que o William subir troca as fontes do
+      # site, commita sozinho e publica. Ninguem decidiu e ninguem
+      # percebe.
+      #
+      # Trocar de versao passa a ser ato deliberado: muda-se aqui e no
+      # package.json, na mesma linha, e roda-se o build na mao para ver
+      # o que mudou antes de deixar o painel publicar.
       - name: Instalar as fontes do site
-        run: npm install --no-save @fontsource/archivo @fontsource/inter
+        run: npm install --no-save @fontsource/archivo@5.3.0 @fontsource/inter@5.3.0
 
       - name: Gerar a pagina
         run: python3 build-transparencia.py
