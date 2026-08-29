@@ -10,13 +10,21 @@
 
 name: Publicar Transparencia
 
+# Os dois caminhos que disparam sozinhos sao os do painel: a lista de
+# documentos e os PDFs. Sao as unicas coisas que o William mexe, e ele
+# nao roda build nenhum, entao a pagina precisa se refazer por conta.
+#
+# template-transparencia.html saiu desta lista em 29/08/2026. Editar o
+# template e trabalho de desenvolvedor, e desenvolvedor ja gera a pagina
+# na propria maquina e commita junto. Deixar o template aqui fazia um
+# push de trabalho em andamento publicar sozinho. Para regenerar a
+# pagina a mao: Actions, Publicar Transparencia, Run workflow.
 on:
   push:
     branches: [main]
     paths:
       - 'transparencia/documentos.json'
       - 'transparencia/arquivos/**'
-      - 'template-transparencia.html'
   workflow_dispatch:
 
 permissions:

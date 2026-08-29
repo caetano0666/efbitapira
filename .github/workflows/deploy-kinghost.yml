@@ -22,6 +22,37 @@
 # Enquanto a TRAVA disser BLOQUEADO, este workflow roda, confere
 # tudo e para antes de tocar na producao. E de proposito: da para
 # testar o caminho inteiro sem risco nenhum.
+#
+# ------------------------------------------------------------
+# O ESCOPO, E POR QUE ELE EXISTE
+#
+# Conferido em 29/08/2026: o environment "producao" NAO tem
+# required_reviewers. Lista de regras vazia. E o passo que exige
+# digitar PUBLICAR so roda no workflow_dispatch, de proposito.
+# Ou seja, no caminho automatico nao havia freio nenhum.
+#
+# O caminho automatico existe porque e o fluxo do William: ele sobe
+# um PDF pelo painel, a Transparencia se refaz e entra no ar sozinha.
+# Isso e para funcionar assim. O problema nao era o disparo, era o
+# alcance dele: o envio publicava o repositorio inteiro, entao
+# qualquer coisa commitada na main ia ao ar no proximo PDF que o
+# cliente subisse, semanas depois, sem ninguem olhando.
+#
+# A partir daqui o alcance depende de quem disparou:
+#
+#   workflow_dispatch  ->  EFB_ESCOPO=tudo
+#                          Caetano, no botao, tendo digitado PUBLICAR.
+#
+#   qualquer outro     ->  EFB_ESCOPO=transparencia
+#                          So sai o que esta sob transparencia/.
+#
+# A regra e escrita ao contrario de proposito: o escopo largo exige
+# uma condicao explicita, o estreito e o que sobra. Gatilho novo que
+# alguem acrescente amanha nasce contido, sem precisar lembrar disso.
+#
+# Tres lugares independentes aplicam o escopo: montar-lista.sh monta
+# so o que pode sair, validar.sh confere, e enviar.sh recusa antes de
+# abrir a conexao.
 # ============================================================
 
 name: Publicar na KingHost
@@ -59,6 +90,9 @@ jobs:
   publicar:
     runs-on: ubuntu-latest
     environment: producao
+    env:
+      # largo so no acionamento manual. todo o resto nasce estreito.
+      EFB_ESCOPO: ${{ github.event_name == 'workflow_dispatch' && 'tudo' || 'transparencia' }}
     steps:
       - name: Conferir a confirmacao digitada
         if: github.event_name == 'workflow_dispatch'
@@ -84,6 +118,9 @@ jobs:
           echo "commit:  $(git rev-parse HEAD)"
           echo "titulo:  $(git log -1 --format=%s)"
           echo "origem:  ${{ github.event_name }}"
+          echo "escopo:  $EFB_ESCOPO"
+          echo "arquivos que podem sair:"
+          bash deploy/montar-lista.sh | sed 's/^/  /'
 
       - name: Instalar o que a conferencia precisa
         run: |
@@ -126,6 +163,7 @@ jobs:
             echo "| commit | \`$(git rev-parse --short HEAD)\` |"
             echo "| titulo | $(git log -1 --format=%s) |"
             echo "| origem | ${{ github.event_name }} |"
+            echo "| escopo | \`$EFB_ESCOPO\` |"
             echo "| resultado | ${{ job.status }} |"
             echo ""
             echo "Para restaurar uma versao anterior: Run workflow, campo commit, hash desejado."

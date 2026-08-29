@@ -7,7 +7,7 @@
 # errada, a automacao para e avisa.
 #
 # Confere:
-#   1. as tres paginas respondem 200 e tem o tamanho certo
+#   1. as paginas do envio respondem 200 e tem o tamanho certo
 #   2. o QR do PIX no ar continua sendo o oficial
 #   3. HTTP vai para HTTPS, www vai para o dominio sem www
 #   4. o .htaccess continua protegido
@@ -20,14 +20,24 @@ set -uo pipefail
 aqui="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 raiz="$(dirname "$aqui")"
 site="https://efbitapira.org"
+escopo="${EFB_ESCOPO:-tudo}"
 falhou=0
 
 # a KingHost nao manda cabecalho de cache. sem isto, a conferencia
 # pode ler a versao antiga e aprovar uma publicacao que nao chegou.
 sem_cache="?conferencia=$(git -C "$raiz" rev-parse --short HEAD 2>/dev/null || echo x)"
 
+echo "== escopo =="
+echo "  $escopo"
+
 echo "== paginas e documentos =="
-while IFS= read -r arq; do
+mapfile -t envio < <(EFB_ESCOPO="$escopo" bash "$aqui/montar-lista.sh")
+if [ "${#envio[@]}" -eq 0 ]; then
+  # lista vazia aqui viraria conferencia verde sem ter conferido nada.
+  echo "  FALHOU  a lista de envio veio vazia. Nada foi conferido."
+  falhou=1
+fi
+for arq in "${envio[@]}"; do
   [ -z "$arq" ] && continue
   caminho="/${arq%index.html}"
   esperado=$(wc -c < "$raiz/$arq" | tr -d ' ')
@@ -38,7 +48,7 @@ while IFS= read -r arq; do
   else
     echo "  FALHOU  $caminho  HTTP $http  $obtido bytes, esperados $esperado"; falhou=1
   fi
-done < <(bash "$aqui/montar-lista.sh")
+done
 
 echo "== documentos despublicados sairam do ar =="
 n=0
@@ -54,6 +64,10 @@ while IFS= read -r alvo; do
 done < <(grep -vE '^\s*(#|$)' "$aqui/remover.txt" || true)
 [ "$n" -eq 0 ] && echo "  ok  nada a despublicar"
 
+# Este bloco roda em QUALQUER escopo, inclusive quando a doacao nao foi
+# enviada. E a garantia que sustenta a dispensa da conferencia do PIX no
+# validar.sh: nao importa o que foi publicado, o QR que o visitante ve
+# tem que continuar sendo o do banco.
 echo "== PIX no ar =="
 curl -s "$site/doacao/$sem_cache" -o /tmp/doa.$$
 if python3 "$aqui/conferir-pix.py" /tmp/doa.$$ "$aqui/pix-oficial.txt"; then

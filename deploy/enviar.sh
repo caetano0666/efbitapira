@@ -24,8 +24,29 @@ raiz="$(dirname "$aqui")"
 : "${KH_FTP_USER:?falta KH_FTP_USER}"
 : "${KH_FTP_PASS:?falta KH_FTP_PASS}"
 
+escopo="${EFB_ESCOPO:-tudo}"
+echo "ENVIO: escopo $escopo"
+
 mapfile -t arquivos < <(bash "$aqui/montar-lista.sh")
 [ "${#arquivos[@]}" -gt 0 ] || { echo "ENVIO: a lista esta vazia. Nada a fazer."; exit 1; }
+
+# ------------------------------------------------------------
+# ULTIMA CONFERENCIA ANTES DO FIO
+#
+# O escopo ja foi aplicado no montar-lista.sh e conferido no
+# validar.sh. Esta e a terceira, e a unica que roda no processo que
+# de fato escreve na producao. Se um dia alguem chamar este script
+# sozinho, sem validar antes, ela continua valendo.
+# ------------------------------------------------------------
+if [ "$escopo" = "transparencia" ]; then
+  for arq in "${arquivos[@]}"; do
+    if [ "${arq#transparencia/}" = "$arq" ]; then
+      echo "ENVIO: ABORTADO  escopo transparencia com arquivo de fora: $arq"
+      echo "       A producao nao foi tocada."
+      exit 1
+    fi
+  done
+fi
 
 mapfile -t remover < <(grep -vE '^\s*(#|$)' "$aqui/remover.txt" || true)
 

@@ -28,15 +28,42 @@ if not m:
 
 img = Image.open(io.BytesIO(base64.b64decode(m.group(1)))).convert('RGB')
 
-try:
-    import cv2
-    import numpy as np
+# Dois leitores. O primeiro que conseguir ler, vale.
+#
+# Se NENHUM dos dois estiver instalado, esta conferencia nao roda, e
+# isso precisa aparecer como o que e: uma trava que nao foi executada.
+# Antes, a falta da biblioteca virava um traceback e o validar.sh
+# anunciava "o QR nao confere com o oficial". Nao era verdade: o QR
+# podia estar perfeito, ninguem tinha olhado. Uma trava que mente e
+# pior que trava nenhuma.
+def le_com_cv2(im):
+    import cv2, numpy as np
     achado, _, _ = cv2.QRCodeDetector().detectAndDecode(
-        cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR))
-except ImportError:
+        cv2.cvtColor(np.array(im), cv2.COLOR_RGB2BGR))
+    return achado or ''
+
+def le_com_pyzbar(im):
     from pyzbar.pyzbar import decode
-    lidos = decode(img)
-    achado = lidos[0].data.decode() if lidos else ''
+    lidos = decode(im)
+    return lidos[0].data.decode() if lidos else ''
+
+achado = ''
+faltaram = []
+for leitor in (le_com_cv2, le_com_pyzbar):
+    try:
+        achado = leitor(img)
+    except ImportError as e:
+        faltaram.append(str(e)); continue
+    if achado:
+        break
+
+if not achado and len(faltaram) == 2:
+    print('  PIX: NAO CONFERIDO. Nenhum leitor de QR instalado.')
+    print('       Instale um dos dois e rode de novo:')
+    print('         python3 -m pip install opencv-python-headless numpy')
+    print('         python3 -m pip install pyzbar          (precisa do zbar no sistema)')
+    print('       Isto nao e uma reprovacao do QR. E a conferencia nao tendo acontecido.')
+    sys.exit(3)
 
 esperado = io.open(oficial, encoding='utf-8').read().strip()
 
