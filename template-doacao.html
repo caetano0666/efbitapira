@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Doe para a Escolinha de Futebol Batista de Itapira | Doação pelo PIX</title>
-<meta name="description" content="Faça sua doação pelo PIX para a Escolinha de Futebol Batista de Itapira. Chave PIX pelo CNPJ 53.300.905/0001-43. Qualquer valor faz diferença.">
+<title>Doe para a Escolinha de Futebol Batista de Itapira | Doação pelo Pix</title>
+<meta name="description" content="Faça sua doação pelo Pix para a Escolinha de Futebol Batista de Itapira. Chave Pix pelo CNPJ 53.300.905/0001-43. Qualquer valor faz diferença.">
 <link rel="canonical" href="https://efbitapira.org/doacao/">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
@@ -18,7 +18,7 @@
    PAGINA DE DOACAO
    usa os mesmos tokens, tipografia e componentes do site
    ============================================================ */
-.doar{padding-block:clamp(56px,8vw,104px)}
+.doar{padding-top:max(clamp(56px,8vw,104px),var(--abre-min));padding-bottom:clamp(56px,8vw,104px)}
 .doar__in{
   display:grid;grid-template-columns:1fr;gap:clamp(36px,5vw,64px);
   align-items:start;
@@ -104,12 +104,12 @@
     </div>
 
     <aside class="cartao">
-      <p class="cartao__rot">Faça sua doação<br>pelo PIX</p>
-      <img class="cartao__qr" src="QR_SRC" alt="QR Code para doação pelo PIX à Escolinha de Futebol Batista de Itapira" width="QR_W" height="QR_H" decoding="async">
-      <p class="cartao__lbl">Chave PIX</p>
+      <p class="cartao__rot">Faça sua doação<br>pelo Pix</p>
+      <img class="cartao__qr" src="QR_SRC" alt="QR Code para doação pelo Pix à Escolinha de Futebol Batista de Itapira" width="QR_W" height="QR_H" decoding="async">
+      <p class="cartao__lbl">Chave Pix</p>
       <p class="cartao__chave">CNPJ 53.300.905/0001-43</p>
       <p class="cartao__titular">Associação Escolinha de Futebol Batista EFB</p>
-      <button type="button" class="btn btn--p" id="copiar" data-chave="53300905000143">Copiar chave PIX</button>
+      <button type="button" class="btn btn--p" id="copiar" data-chave="53300905000143">Copiar chave Pix</button>
       <p class="cartao__aviso" id="aviso" role="status" aria-live="polite"></p>
       <p class="cartao__nota">Qualquer valor faz diferença.</p>
     </aside>
@@ -128,7 +128,7 @@
   var rotulo=b.textContent;
   var t;
   function ok(){
-    aviso.textContent='Chave PIX copiada';
+    aviso.textContent='Chave Pix copiada';
     aviso.classList.add('on');
     b.textContent='Chave copiada';
     clearTimeout(t);
