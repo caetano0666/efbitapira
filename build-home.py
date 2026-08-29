@@ -105,7 +105,19 @@ for slot, (arq, ratio, larg, fy, fx, alt, q) in FOTOS.items():
     comuns[slot] = (f'<img src="data:image/jpeg;base64,{b64}" alt="{alt}" '
                     f'width="{size[0]}" height="{size[1]}" decoding="async">', len(data), arq, size)
 
+# ------------------------------------------------------------
+# CREDENCIAL PESSOAL DO WILLIAM, NA SECAO HISTORIA
+# O logotipo entra reduzido a tres vezes o tamanho de exibicao.
+# Nao faz sentido carregar 900 pixels de altura para mostrar 32.
+# ------------------------------------------------------------
+adc = Image.open(root/'logo-atletas-de-cristo.png')
+adc_h = 110
+adc = adc.resize((round(adc.size[0]*adc_h/adc.size[1]), adc_h), Image.LANCZOS)
+_b = io.BytesIO(); adc.save(_b, 'PNG', optimize=True)
+adc_bytes = _b.getvalue()
+
 html = base
+html = html.replace('ADC_SRC', 'data:image/png;base64,' + base64.b64encode(adc_bytes).decode())
 hd, hs = compoe(**HERO["desk"])
 hm, ms = compoe(**HERO["mob"])
 pic = ('<picture>'
