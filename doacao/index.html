@@ -357,18 +357,120 @@ section[id]{scroll-margin-top:96px}
 /* ============================================================
    6. GALERIA
    ============================================================ */
+/* Faixa horizontal. Todas as fotografias tem a MESMA ALTURA e a
+   largura que a proporcao delas pedir. Retrato fica estreito,
+   paisagem fica largo, e nenhuma e cortada para caber na caixa.
+   A grade antiga fazia o contrario: forcava 3/2 em quatro retratos
+   e decepava cabeca. Foto manda no desenho, nao o inverso.
+
+   Acrescentar fotografia nao mexe em CSS nenhum: a faixa cresce. */
 .gal{
-  display:grid;grid-template-columns:repeat(6,1fr);
-  grid-auto-rows:clamp(96px,13vw,150px);gap:clamp(10px,1.3vw,18px);
+  display:flex;gap:clamp(10px,1.3vw,18px);
   margin-top:clamp(40px,5vw,60px);
+  overflow-x:auto;overscroll-behavior-x:contain;
+  scroll-snap-type:x proximity;scroll-behavior:smooth;
+  padding-bottom:16px;
+  scrollbar-width:thin;scrollbar-color:var(--borda) transparent;
 }
-.gal .foto{border-radius:var(--r);height:100%;aspect-ratio:auto}
-.g1{grid-column:span 4;grid-row:span 3}
-.g2{grid-column:span 2;grid-row:span 2}
-.g3{grid-column:span 2;grid-row:span 1}
-.g4{grid-column:span 2;grid-row:span 2}
-.g5{grid-column:span 2;grid-row:span 2}
-.g6{grid-column:span 2;grid-row:span 2}
+.gal::-webkit-scrollbar{height:6px}
+.gal::-webkit-scrollbar-track{background:transparent}
+.gal::-webkit-scrollbar-thumb{background:var(--borda);border-radius:3px}
+.gal__i{flex:0 0 auto;margin:0;scroll-snap-align:start}
+.gal__b{
+  display:block;padding:0;border:0;background:var(--cinza-medio);
+  border-radius:var(--r);overflow:hidden;line-height:0;cursor:zoom-in;
+  height:clamp(230px,25vw,320px);
+  transition:filter .28s ease,box-shadow .28s ease;
+}
+/* a foto inteira, sem corte: altura fixa, largura pelo que a
+   proporcao pedir. nunca object-fit:cover aqui. */
+.gal__b img{display:block;height:100%;width:auto;object-fit:contain}
+@media (hover:hover){
+  .gal__b:hover{filter:brightness(1.05);box-shadow:0 14px 34px rgba(6,30,56,.20)}
+}
+.gal__b:focus-visible{outline:2px solid var(--azul-vivo);outline-offset:3px}
+
+/* setas do desktop. so aparecem onde ha mouse e a faixa transborda.
+   no toque nao existem: o dedo ja arrasta. */
+.gal-nav{display:none;gap:10px;margin-top:18px}
+.gal-nav__b{
+  width:42px;height:42px;border-radius:50%;
+  border:1px solid var(--borda);background:var(--branco);color:var(--azul);
+  font-size:20px;line-height:1;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s ease,border-color .2s ease,color .2s ease;
+}
+.gal-nav__b:hover{background:var(--azul);border-color:var(--azul);color:#fff}
+.gal-nav__b:disabled{opacity:.35;cursor:default}
+.gal-nav__b:disabled:hover{background:var(--branco);border-color:var(--borda);color:var(--azul)}
+@media (hover:hover) and (min-width:760px){.gal-nav.on{display:flex}}
+
+/* ampliacao. a fotografia aparece inteira, por contain, e o que
+   sobra e fundo. nada de corte tambem aqui. */
+.lb{
+  position:fixed;inset:0;z-index:120;
+  background:rgba(6,30,56,.96);
+  display:flex;align-items:center;justify-content:center;
+  padding:clamp(14px,3vw,34px);touch-action:pan-y;
+}
+.lb[hidden]{display:none}
+.lb__img{
+  max-width:min(96vw,1400px);max-height:86vh;
+  width:auto;height:auto;object-fit:contain;
+  border-radius:var(--r);user-select:none;-webkit-user-drag:none;
+}
+.lb button{
+  position:absolute;border:1px solid rgba(255,255,255,.22);
+  background:rgba(255,255,255,.09);color:#fff;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:50%;transition:background .2s ease,border-color .2s ease;
+}
+.lb button:hover{background:rgba(58,147,224,.30);border-color:var(--azul-vivo)}
+.lb button:focus-visible{outline:2px solid var(--azul-vivo);outline-offset:3px}
+.lb__x{top:clamp(12px,2vw,22px);right:clamp(12px,2vw,22px);width:46px;height:46px;font-size:19px}
+.lb__p,.lb__n{top:50%;transform:translateY(-50%);width:50px;height:50px;font-size:28px}
+.lb__p{left:clamp(10px,1.6vw,20px)}
+.lb__n{right:clamp(10px,1.6vw,20px)}
+.lb__c{
+  position:absolute;bottom:clamp(12px,2vw,20px);left:50%;transform:translateX(-50%);
+  margin:0;font-size:13px;color:rgba(255,255,255,.72);font-variant-numeric:tabular-nums;
+}
+/* No toque as setas saem: o swipe faz o trabalho e a foto ganha a
+   tela. O seletor precisa dos dois niveis: `.lb button` acima vale
+   0,1,1 e passaria por cima de um `.lb__p` sozinho, que vale 0,1,0. */
+@media (hover:none),(max-width:640px){.lb .lb__p,.lb .lb__n{display:none}}
+
+/* No celular a faixa sangra ate a borda direita da tela. Sem isto
+   ela era recortada na goteira, a proxima fotografia comecava 5px
+   depois do corte e nao aparecia nada: media em 390px, zero pixel.
+   Ficava sem dizer que havia mais foto, e a barra de rolagem no
+   celular so aparece com o dedo em cima.
+
+   O padding devolve o respiro no fim da rolagem, para a ultima
+   fotografia nao encostar na borda. A esquerda nada muda: a faixa
+   continua alinhada com o titulo e com o resto da pagina. */
+@media (max-width:600px){
+  .gal{margin-right:calc(-1 * var(--gut));padding-right:var(--gut)}
+}
+
+/* Nas telas mais estreitas o sangramento sozinho nao bastava. A foto
+   tem 345px e comeca em 20, entao a proxima comeca sempre em 375: de
+   366 a 389 de tela a primeira cabe inteira, sobra fundo e a segunda
+   ainda nao chegou. Media em 375px, que e iPhone SE, 8 e 13 mini:
+   zero pixel de pista.
+   Vinte pixels a menos de altura resolvem a aritmetica. A foto passa
+   a 315 de largura, a proxima comeca em 345, e a espiada aparece em
+   toda largura: 15px em 360, 30px em 375, 45px em 390.
+   Encolhe so a miniatura da faixa. O arquivo, a qualidade, a
+   proporcao e a ampliacao continuam exatamente os mesmos. */
+@media (max-width:400px){
+  .gal__b{height:210px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .gal{scroll-behavior:auto}
+  .gal__b,.gal-nav__b,.lb button{transition:none}
+}
 
 /* ============================================================
    7. PARCEIROS

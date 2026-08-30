@@ -90,13 +90,57 @@ FOTOS = {
  "treino":   ("f13.jpg", 3/2,  1400, 0.50, 0.50, "Equipes da Escolinha reunidas no campo ao entardecer, com as famílias", 72),
  "historia": ("f16.jpg", 4/5,   900, 0.42, 0.50, "Time da Escolinha reunido em roda comemorando com a comissão técnica", 74),
  "trofeu":   ("f03.jpg", 1/1,  1000, 0.52, 0.50, "Equipe da Escolinha de Futebol Batista com o troféu conquistado", 74),
- "gal1":     ("f15.jpg", 4/5,  1000, 0.24, 0.50, "Disputa de bola entre dois atletas durante partida de futebol de base", 74),
- "gal2":     ("f05.jpg", 3/2,   900, 0.30, 0.50, "Atleta da Escolinha conduzindo a bola em campo aberto", 74),
- "gal3":     ("f24.jpg", 3/2,   950, 0.50, 0.50, "Equipes perfiladas no campo antes do início da partida", 74),
- "gal4":     ("f14.jpg", 3/2,   900, 0.30, 0.50, "Atleta da Escolinha dominando a bola durante o jogo", 74),
- "gal5":     ("f22.jpg", 3/2,   900, 0.28, 0.50, "Atleta da Escolinha com o troféu recebido em competição", 74),
- "gal6":     ("f11.jpg", 3/2,   900, 0.42, 0.50, "Professor da Escolinha no campo antes da atividade", 74),
 }
+
+# ============================================================
+# A GALERIA
+#
+# Aqui NAO se corta. A funcao so reduz, e a proporcao original
+# atravessa intacta ate o HTML: retrato continua retrato, paisagem
+# continua paisagem. Na pagina a faixa da a todas a mesma altura e
+# deixa a largura variar, entao nenhuma cabeca precisa ser decepada
+# para a foto caber numa caixa.
+#
+# A galeria antiga fazia o oposto. Forcava 3/2 em f05, f14, f22 e
+# f11, que sao retratos. A f22 tem 1280 de altura e aparecia com
+# 529: 59 por cento da fotografia ficava fora, escolhido por um
+# ponto focal chutado.
+#
+# CAIXA e o lado maior depois da reducao. Serve as duas leituras: a
+# miniatura da faixa, com cerca de 320 pixels de altura, e a
+# ampliacao, que chega a 86vh. Nao ha duas copias de cada foto
+# porque tudo aqui e base64 no proprio HTML: duas copias seriam duas
+# vezes o peso, e nao metade.
+#
+# Acrescentar fotografia e acrescentar uma linha nesta lista.
+# Nem o CSS nem o JavaScript da pagina precisam saber.
+# ============================================================
+GAL_CAIXA, GAL_Q = 1000, 72
+
+def inteira(nome, caixa=GAL_CAIXA, q=GAL_Q):
+    im = abrir(nome); w, h = im.size
+    e = min(caixa / w, caixa / h, 1.0)
+    if e < 1:
+        im = im.resize((round(w * e), round(h * e)), Image.LANCZOS)
+    return jpg(im, q), im.size
+
+# ordem da faixa. paisagem e retrato alternados para a faixa nao
+# ficar aos bloces. os seis primeiros textos vem da galeria antiga,
+# preservados; os das fotos novas descrevem so o que se ve nelas.
+GALERIA = [
+ ("f31.jpg", "Dois atletas de times diferentes disputando a bola em velocidade"),
+ ("f15.jpg", "Disputa de bola entre dois atletas durante partida de futebol de base"),
+ ("f27.jpg", "Goleiro caído no gramado segurando a bola com as duas mãos"),
+ ("f22.jpg", "Atleta da Escolinha com o troféu recebido em competição"),
+ ("f28.jpg", "Atleta de uniforme verde dominando a bola com o pé, perto da bandeira de escanteio"),
+ ("f05.jpg", "Atleta da Escolinha conduzindo a bola em campo aberto"),
+ ("f29.jpg", "Equipe de uniforme azul comemorando com o troféu erguido no campo"),
+ ("f14.jpg", "Atleta da Escolinha dominando a bola durante o jogo"),
+ ("f24.jpg", "Equipes perfiladas no campo antes do início da partida"),
+ ("f26.jpg", "Goleiro de uniforme verde e luvas em pé no gramado"),
+ ("f30.jpg", "Atleta com troféu ao lado de dois adultos, diante do painel da Escolinha"),
+ ("f11.jpg", "Professor da Escolinha no campo antes da atividade"),
+]
 
 comuns = {}
 for slot, (arq, ratio, larg, fy, fx, alt, q) in FOTOS.items():
@@ -128,6 +172,25 @@ pic = ('<picture>'
 html = troca(html, "hero", pic)
 for slot, (tag, n, arq, size) in comuns.items():
     html = troca(html, slot, tag)
+
+# ---- a faixa da galeria ----
+# a primeira nao e lazy: e a unica que ja pode estar na tela quando
+# a secao entra. as outras esperam a rolagem.
+figuras, peso_gal = [], 0
+for k, (arq, alt) in enumerate(GALERIA):
+    dados, (gw, gh) = inteira(arq)
+    peso_gal += len(dados)
+    figuras.append(
+        '<figure class="gal__i" role="listitem">'
+        f'<button class="gal__b" type="button" aria-label="Ampliar: {alt}">'
+        f'<img src="data:image/jpeg;base64,{base64.b64encode(dados).decode()}" '
+        f'alt="{alt}" width="{gw}" height="{gh}" '
+        f'{"" if k == 0 else "loading=\"lazy\" "}decoding="async">'
+        '</button></figure>'
+    )
+if '<!--GALERIA-->' not in html:
+    raise SystemExit('placeholder <!--GALERIA--> ausente no template')
+html = html.replace('<!--GALERIA-->', ''.join(figuras))
 # arquivo unico de producao. o nome index.html e o que a hospedagem serve na raiz.
 # nao existe segunda copia: nada para esquecer de sincronizar.
 out = root/'index.html'
@@ -137,6 +200,8 @@ print(f'arquivo oficial: {out.name}  {out.stat().st_size//1024} KB')
 print('---')
 for slot, (tag, n, arq, size) in comuns.items():
     print(f'  {slot:9s} {arq}  {size[0]}x{size[1]}  {n//1024} KB')
+print(f'  galeria   {len(GALERIA)} fotos, caixa {GAL_CAIXA}px q{GAL_Q}, {peso_gal//1024} KB'
+      f' ({peso_gal*4//3//1024} KB ja em base64)')
 
 # ============================================================
 # PAGINA DE DOACAO  ->  doacao/index.html

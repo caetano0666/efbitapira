@@ -351,18 +351,120 @@ section[id]{scroll-margin-top:96px}
 /* ============================================================
    6. GALERIA
    ============================================================ */
+/* Faixa horizontal. Todas as fotografias tem a MESMA ALTURA e a
+   largura que a proporcao delas pedir. Retrato fica estreito,
+   paisagem fica largo, e nenhuma e cortada para caber na caixa.
+   A grade antiga fazia o contrario: forcava 3/2 em quatro retratos
+   e decepava cabeca. Foto manda no desenho, nao o inverso.
+
+   Acrescentar fotografia nao mexe em CSS nenhum: a faixa cresce. */
 .gal{
-  display:grid;grid-template-columns:repeat(6,1fr);
-  grid-auto-rows:clamp(96px,13vw,150px);gap:clamp(10px,1.3vw,18px);
+  display:flex;gap:clamp(10px,1.3vw,18px);
   margin-top:clamp(40px,5vw,60px);
+  overflow-x:auto;overscroll-behavior-x:contain;
+  scroll-snap-type:x proximity;scroll-behavior:smooth;
+  padding-bottom:16px;
+  scrollbar-width:thin;scrollbar-color:var(--borda) transparent;
 }
-.gal .foto{border-radius:var(--r);height:100%;aspect-ratio:auto}
-.g1{grid-column:span 4;grid-row:span 3}
-.g2{grid-column:span 2;grid-row:span 2}
-.g3{grid-column:span 2;grid-row:span 1}
-.g4{grid-column:span 2;grid-row:span 2}
-.g5{grid-column:span 2;grid-row:span 2}
-.g6{grid-column:span 2;grid-row:span 2}
+.gal::-webkit-scrollbar{height:6px}
+.gal::-webkit-scrollbar-track{background:transparent}
+.gal::-webkit-scrollbar-thumb{background:var(--borda);border-radius:3px}
+.gal__i{flex:0 0 auto;margin:0;scroll-snap-align:start}
+.gal__b{
+  display:block;padding:0;border:0;background:var(--cinza-medio);
+  border-radius:var(--r);overflow:hidden;line-height:0;cursor:zoom-in;
+  height:clamp(230px,25vw,320px);
+  transition:filter .28s ease,box-shadow .28s ease;
+}
+/* a foto inteira, sem corte: altura fixa, largura pelo que a
+   proporcao pedir. nunca object-fit:cover aqui. */
+.gal__b img{display:block;height:100%;width:auto;object-fit:contain}
+@media (hover:hover){
+  .gal__b:hover{filter:brightness(1.05);box-shadow:0 14px 34px rgba(6,30,56,.20)}
+}
+.gal__b:focus-visible{outline:2px solid var(--azul-vivo);outline-offset:3px}
+
+/* setas do desktop. so aparecem onde ha mouse e a faixa transborda.
+   no toque nao existem: o dedo ja arrasta. */
+.gal-nav{display:none;gap:10px;margin-top:18px}
+.gal-nav__b{
+  width:42px;height:42px;border-radius:50%;
+  border:1px solid var(--borda);background:var(--branco);color:var(--azul);
+  font-size:20px;line-height:1;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s ease,border-color .2s ease,color .2s ease;
+}
+.gal-nav__b:hover{background:var(--azul);border-color:var(--azul);color:#fff}
+.gal-nav__b:disabled{opacity:.35;cursor:default}
+.gal-nav__b:disabled:hover{background:var(--branco);border-color:var(--borda);color:var(--azul)}
+@media (hover:hover) and (min-width:760px){.gal-nav.on{display:flex}}
+
+/* ampliacao. a fotografia aparece inteira, por contain, e o que
+   sobra e fundo. nada de corte tambem aqui. */
+.lb{
+  position:fixed;inset:0;z-index:120;
+  background:rgba(6,30,56,.96);
+  display:flex;align-items:center;justify-content:center;
+  padding:clamp(14px,3vw,34px);touch-action:pan-y;
+}
+.lb[hidden]{display:none}
+.lb__img{
+  max-width:min(96vw,1400px);max-height:86vh;
+  width:auto;height:auto;object-fit:contain;
+  border-radius:var(--r);user-select:none;-webkit-user-drag:none;
+}
+.lb button{
+  position:absolute;border:1px solid rgba(255,255,255,.22);
+  background:rgba(255,255,255,.09);color:#fff;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:50%;transition:background .2s ease,border-color .2s ease;
+}
+.lb button:hover{background:rgba(58,147,224,.30);border-color:var(--azul-vivo)}
+.lb button:focus-visible{outline:2px solid var(--azul-vivo);outline-offset:3px}
+.lb__x{top:clamp(12px,2vw,22px);right:clamp(12px,2vw,22px);width:46px;height:46px;font-size:19px}
+.lb__p,.lb__n{top:50%;transform:translateY(-50%);width:50px;height:50px;font-size:28px}
+.lb__p{left:clamp(10px,1.6vw,20px)}
+.lb__n{right:clamp(10px,1.6vw,20px)}
+.lb__c{
+  position:absolute;bottom:clamp(12px,2vw,20px);left:50%;transform:translateX(-50%);
+  margin:0;font-size:13px;color:rgba(255,255,255,.72);font-variant-numeric:tabular-nums;
+}
+/* No toque as setas saem: o swipe faz o trabalho e a foto ganha a
+   tela. O seletor precisa dos dois niveis: `.lb button` acima vale
+   0,1,1 e passaria por cima de um `.lb__p` sozinho, que vale 0,1,0. */
+@media (hover:none),(max-width:640px){.lb .lb__p,.lb .lb__n{display:none}}
+
+/* No celular a faixa sangra ate a borda direita da tela. Sem isto
+   ela era recortada na goteira, a proxima fotografia comecava 5px
+   depois do corte e nao aparecia nada: media em 390px, zero pixel.
+   Ficava sem dizer que havia mais foto, e a barra de rolagem no
+   celular so aparece com o dedo em cima.
+
+   O padding devolve o respiro no fim da rolagem, para a ultima
+   fotografia nao encostar na borda. A esquerda nada muda: a faixa
+   continua alinhada com o titulo e com o resto da pagina. */
+@media (max-width:600px){
+  .gal{margin-right:calc(-1 * var(--gut));padding-right:var(--gut)}
+}
+
+/* Nas telas mais estreitas o sangramento sozinho nao bastava. A foto
+   tem 345px e comeca em 20, entao a proxima comeca sempre em 375: de
+   366 a 389 de tela a primeira cabe inteira, sobra fundo e a segunda
+   ainda nao chegou. Media em 375px, que e iPhone SE, 8 e 13 mini:
+   zero pixel de pista.
+   Vinte pixels a menos de altura resolvem a aritmetica. A foto passa
+   a 315 de largura, a proxima comeca em 345, e a espiada aparece em
+   toda largura: 15px em 360, 30px em 375, 45px em 390.
+   Encolhe so a miniatura da faixa. O arquivo, a qualidade, a
+   proporcao e a ampliacao continuam exatamente os mesmos. */
+@media (max-width:400px){
+  .gal__b{height:210px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .gal{scroll-behavior:auto}
+  .gal__b,.gal-nav__b,.lb button{transition:none}
+}
 
 /* ============================================================
    7. PARCEIROS
@@ -779,13 +881,13 @@ section[id]{scroll-margin-top:96px}
     <h2 class="t-xl" style="max-width:18ch">É aqui que tudo acontece.</h2>
     <p class="lead" style="margin-top:22px;max-width:52ch">Treinos. Jogos. Viagens. Conquistas. Famílias. Amizades.</p>
 
-    <div class="gal">
-      <figure class="foto g1" data-slot="gal1" data-fonte="Acervo da Escolinha de Futebol Batista (Divulgação)"><div class="ph"><span class="ph__tag">Foto pendente</span><p class="ph__txt">Imagem principal da galeria. Jogo em movimento.</p></div></figure>
-      <figure class="foto g2" data-slot="gal2" data-fonte="Acervo da Escolinha de Futebol Batista (Divulgação)"><div class="ph"><span class="ph__tag">Foto pendente</span><p class="ph__txt">Comemoração</p></div></figure>
-      <figure class="foto g3" data-slot="gal3" data-fonte="Acervo da Escolinha de Futebol Batista (Divulgação)"><div class="ph"><span class="ph__tag">Foto pendente</span><p class="ph__txt">Medalhas e troféus</p></div></figure>
-      <figure class="foto g4" data-slot="gal4" data-fonte="Acervo da Escolinha de Futebol Batista (Divulgação)"><div class="ph"><span class="ph__tag">Foto pendente</span><p class="ph__txt">Famílias</p></div></figure>
-      <figure class="foto g5" data-slot="gal5" data-fonte="Acervo da Escolinha de Futebol Batista (Divulgação)"><div class="ph"><span class="ph__tag">Foto pendente</span><p class="ph__txt">Bastidores e viagem</p></div></figure>
-      <figure class="foto g6" data-slot="gal6" data-fonte="Acervo da Escolinha de Futebol Batista (Divulgação)"><div class="ph"><span class="ph__tag">Foto pendente</span><p class="ph__txt">Convivência</p></div></figure>
+    <div class="gal" id="gal" role="list" aria-label="Fotografias da Escolinha">
+      <!--GALERIA-->
+    </div>
+
+    <div class="gal-nav" id="galNav">
+      <button class="gal-nav__b" type="button" data-passo="-1" aria-controls="gal" aria-label="Ver fotografias anteriores">&#8249;</button>
+      <button class="gal-nav__b" type="button" data-passo="1" aria-controls="gal" aria-label="Ver mais fotografias">&#8250;</button>
     </div>
 
     <div class="btns">
@@ -793,6 +895,104 @@ section[id]{scroll-margin-top:96px}
     </div>
   </div>
 </section>
+
+<!-- ============ AMPLIACAO DA GALERIA ============ -->
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Fotografia ampliada">
+  <button class="lb__x" type="button" id="lbX" aria-label="Fechar">&#10005;</button>
+  <button class="lb__p" type="button" id="lbP" aria-label="Fotografia anterior">&#8249;</button>
+  <img class="lb__img" id="lbImg" src="" alt="">
+  <button class="lb__n" type="button" id="lbN" aria-label="Próxima fotografia">&#8250;</button>
+  <p class="lb__c" id="lbC"></p>
+</div>
+
+<script>
+/* Galeria da home. Vive so aqui: as outras paginas nao carregam isto.
+   A lista de fotografias e o proprio DOM, entao acrescentar foto no
+   build-home.py nao pede uma linha de JavaScript. */
+(function () {
+  var faixa = document.getElementById('gal');
+  if (!faixa) return;
+  var botoes = [].slice.call(faixa.querySelectorAll('.gal__b'));
+  if (!botoes.length) return;
+
+  var lb = document.getElementById('lb'), img = document.getElementById('lbImg'),
+      conta = document.getElementById('lbC'), nav = document.getElementById('galNav'),
+      i = 0, veioDe = null;
+
+  function mostrar() {
+    var o = botoes[i].querySelector('img');
+    img.src = o.currentSrc || o.src;
+    img.alt = o.alt;
+    conta.textContent = (i + 1) + ' de ' + botoes.length;
+  }
+  function abrir(n) {
+    i = n; veioDe = botoes[n]; mostrar();
+    lb.hidden = false;
+    document.body.style.overflow = 'hidden';
+    document.getElementById('lbX').focus();
+  }
+  function passo(d) { i = (i + d + botoes.length) % botoes.length; mostrar(); }
+  function fechar() {
+    lb.hidden = true;
+    document.body.style.overflow = '';
+    if (veioDe) veioDe.focus();
+  }
+
+  botoes.forEach(function (b, n) { b.addEventListener('click', function () { abrir(n); }); });
+  document.getElementById('lbX').addEventListener('click', fechar);
+  document.getElementById('lbP').addEventListener('click', function () { passo(-1); });
+  document.getElementById('lbN').addEventListener('click', function () { passo(1); });
+  // clique no fundo, e nao na fotografia nem nos botoes
+  lb.addEventListener('click', function (e) { if (e.target === lb) fechar(); });
+
+  document.addEventListener('keydown', function (e) {
+    if (lb.hidden) return;
+    if (e.key === 'Escape') { fechar(); }
+    else if (e.key === 'ArrowLeft') { passo(-1); }
+    else if (e.key === 'ArrowRight') { passo(1); }
+    else if (e.key === 'Tab') {
+      // o foco nao escapa do dialogo enquanto ele esta aberto
+      var f = [].slice.call(lb.querySelectorAll('button')).filter(function (b) {
+        return b.offsetParent !== null;
+      });
+      if (!f.length) return;
+      var pri = f[0], ult = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === pri) { e.preventDefault(); ult.focus(); }
+      else if (!e.shiftKey && document.activeElement === ult) { e.preventDefault(); pri.focus(); }
+    }
+  });
+
+  // arrastar o dedo troca de fotografia
+  var x0 = 0, y0 = 0;
+  lb.addEventListener('touchstart', function (e) {
+    var t = e.changedTouches[0]; x0 = t.clientX; y0 = t.clientY;
+  }, {passive: true});
+  lb.addEventListener('touchend', function (e) {
+    var t = e.changedTouches[0], dx = t.clientX - x0, dy = t.clientY - y0;
+    if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) passo(dx < 0 ? 1 : -1);
+  }, {passive: true});
+
+  // as setas da faixa so existem se houver o que rolar
+  function medir() {
+    var sobra = faixa.scrollWidth - faixa.clientWidth;
+    nav.classList.toggle('on', sobra > 4);
+    var x = faixa.scrollLeft;
+    nav.children[0].disabled = x < 4;
+    nav.children[1].disabled = x >= sobra - 4;
+  }
+  // A rolagem suave vem do scroll-behavior do CSS, que a consulta
+  // de movimento reduzido desliga.
+  [].slice.call(nav.children).forEach(function (b) {
+    b.addEventListener('click', function () {
+      faixa.scrollBy({left: Number(b.dataset.passo) * faixa.clientWidth * 0.82});
+    });
+  });
+  faixa.addEventListener('scroll', medir, {passive: true});
+  addEventListener('resize', medir);
+  addEventListener('load', medir);
+  medir();
+})();
+</script>
 
 <!-- ============ 7. PARCEIROS ============ -->
 <section class="sec" id="parceiros">
