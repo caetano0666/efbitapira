@@ -515,6 +515,25 @@ section[id]{scroll-margin-top:96px}
 .i-phenom .pa__apoio{width:49.0%}
 .i-glasscamp img{width:64.0%}
 
+/* OITO MARCAS NOVAS, 09/09/2026
+   As larguras nao sao chute nem regra unica: cada uma foi calculada
+   para a TINTA da marca ficar com a mesma area optica das nove ja
+   aprovadas, que medem entre 98 e 135. O alvo e a mediana delas, 121.
+   Por isso um logo largo e baixo, como a Sabadini, recebe muito mais
+   largura que um quadrado, como o Geoli.
+
+   O Yeti so existe em branco, feito para fundo escuro, e some no
+   claro. Entra na superficie de apoio, o mesmo tratamento que a
+   Phenom ja usa. A arte nao e tocada. */
+.i-conttrolare img{width:46.6%}
+.i-pandu img{width:36.2%}
+.i-sabadini img{width:70.0%}
+.i-skullbarber img{width:40.6%}
+.i-skullcafe img{width:55.7%}
+.i-geoli img{width:36.5%}
+.i-uniforme img{width:43.5%}
+.i-yeti .pa__apoio{width:57.1%}
+
 .pa-fecho{
   margin-top:clamp(68px,8vw,104px);padding-top:clamp(32px,3.6vw,44px);
   border-top:1px solid var(--borda);
@@ -552,6 +571,26 @@ section[id]{scroll-margin-top:96px}
   .i-focus img{width:86.0%}
   .i-phenom .pa__apoio{width:38.0%}
   .i-glasscamp img{width:58.0%}
+  /* As oito novas precisam de order explicito. Sem ele nascem com
+     order 0, o padrao, e passariam na frente das nove fundadoras
+     aqui no celular. No desktop nao apareceria, porque la nao ha
+     order nenhum. */
+  .i-conttrolare{order:10}
+  .i-pandu{order:11}
+  .i-sabadini{order:12}
+  .i-skullbarber{order:13}
+  .i-skullcafe{order:14}
+  .i-geoli{order:15}
+  .i-uniforme{order:16}
+  .i-yeti{order:17}
+  .i-conttrolare img{width:86.0%}
+  .i-pandu img{width:66.8%}
+  .i-sabadini img{width:60.0%}
+  .i-skullbarber img{width:74.8%}
+  .i-skullcafe img{width:92.0%}
+  .i-geoli img{width:67.4%}
+  .i-uniforme img{width:80.2%}
+  .i-yeti .pa__apoio{width:49.4%}
   .pa-fecho{flex-direction:column;align-items:stretch}
   .pa-fecho .btn{align-self:flex-start}
 }
@@ -1018,6 +1057,14 @@ section[id]{scroll-margin-top:96px}
       <div class="pa__i i-focus"><img src="/parceiros/focus-corretora.png" alt="Focus Corretora de Seguros" loading="lazy" decoding="async"></div>
       <div class="pa__i i-phenom pa__i--larga"><span class="pa__apoio"><img src="/parceiros/phenom-idiomas.png" alt="Phenom Idiomas" loading="lazy" decoding="async"></span></div>
       <div class="pa__i i-glasscamp pa__i--larga"><img src="/parceiros/glasscamp.png" alt="GlassCamp" loading="lazy" decoding="async"></div>
+      <div class="pa__i i-conttrolare"><img src="/parceiros/conttrolare.jpg" alt="Conttrolare" loading="lazy" decoding="async"></div>
+      <div class="pa__i i-pandu"><img src="/parceiros/pandu-lanches.png" alt="Pandu Lanches" loading="lazy" decoding="async"></div>
+      <div class="pa__i i-sabadini pa__i--larga"><img src="/parceiros/sabadini-transportes.jpg" alt="Sabadini Transportes" loading="lazy" decoding="async"></div>
+      <div class="pa__i i-skullbarber"><img src="/parceiros/skull-barber.jpg" alt="Skull Barber" loading="lazy" decoding="async"></div>
+      <div class="pa__i i-skullcafe"><img src="/parceiros/skull-cafe.jpg" alt="Skull Café" loading="lazy" decoding="async"></div>
+      <div class="pa__i i-geoli"><img src="/parceiros/geoli-supermercados.png" alt="Geoli Supermercados" loading="lazy" decoding="async"></div>
+      <div class="pa__i i-uniforme"><img src="/parceiros/uniforme-e-cia.png" alt="Uniforme e Cia" loading="lazy" decoding="async"></div>
+      <div class="pa__i i-yeti pa__i--larga"><span class="pa__apoio"><img src="/parceiros/yeti-group.png" alt="Yeti Group" loading="lazy" decoding="async"></span></div>
     </div>
 
     <div class="pa-fecho">

@@ -36,3 +36,11 @@ parceiros/imperium-lash-store.png
 parceiros/maximus-servicos.jpeg
 parceiros/moggi-empilhadeiras.jpeg
 parceiros/phenom-idiomas.png
+parceiros/conttrolare.jpg
+parceiros/geoli-supermercados.png
+parceiros/pandu-lanches.png
+parceiros/sabadini-transportes.jpg
+parceiros/skull-barber.jpg
+parceiros/skull-cafe.jpg
+parceiros/uniforme-e-cia.png
+parceiros/yeti-group.png

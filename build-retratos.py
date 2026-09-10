@@ -48,6 +48,14 @@ ROSTOS = {
  "prof-ed-fisica-bruno-brevis.jpeg":                ( 29, 143, 325, 325),
  "prof-ed-fisica-michel-cabral-SEM-FILHO.jpeg":     (341,  84, 129, 129),   # foto composta, o filho saiu do fundo
  "prof-ed-fisica-viniciau-pelizar.jpeg":            (219, 287, 442, 442),
+ # Departamento Medico, 09/09/2026. As tres primeiras medidas a mao e
+ # conferidas na imagem. A do Dr. Mauro veio da deteccao Haar: das tres
+ # caixas encontradas, a de 311px e o rosto; as outras duas caem num movel
+ # desfocado ao fundo e no colarinho.
+ "Dr_Mauro_Xavier_De_Sousa_Filho_3.jpg":            (525, 165, 311, 311),
+ "Dra_Caroline_Prado_De_Souza_Xavier.jpeg":         (168, 129, 202, 202),
+ "Carolina_Bizon_Bressaglia.jpeg":                  (428, 187, 240, 240),
+ "Paola Maia.jpeg":                                 (386, 179, 260, 260),
 }
 # faixa util, para fotos com tarja preta ou vizinho no quadro
 UTIL = {
@@ -66,6 +74,10 @@ PESSOAS = [
  ("Professores","prof-ed-fisica-bruno-brevis.jpeg","Bruno Brevis","Educação física"),
  ("Professores","prof-ed-fisica-michel-cabral-SEM-FILHO.jpeg","Michel Cabral","Educação física"),
  ("Professores","prof-ed-fisica-viniciau-pelizar.jpeg","Vinicius Pelizar","Educação física"),
+ ("Departamento Médico","Dr_Mauro_Xavier_De_Sousa_Filho_3.jpg","Dr. Mauro Xavier de Sousa Filho","Generalista"),
+ ("Departamento Médico","Dra_Caroline_Prado_De_Souza_Xavier.jpeg","Dra. Caroline Prado de Souza Xavier","Ortopedista e Traumatologista"),
+ ("Departamento Médico","Carolina_Bizon_Bressaglia.jpeg","Carolina Bizon Bressaglia","Psicóloga"),
+ ("Departamento Médico","Paola Maia.jpeg","Paola Maia","Estagiária de Psicologia"),
 ]
 
 def corta(arq):
@@ -90,6 +102,14 @@ def corta(arq):
         rec = ImageEnhance.Contrast(ImageOps.autocontrast(rec, cutoff=2)).enhance(1.10)
     return rec, LARG/largura, fw/largura
 
+def sem_ext(nome):
+    # o Dr. Mauro chegou com extensao .jpg e conteudo PNG. a Pillow abre
+    # pelo conteudo, mas o nome de saida precisa aceitar as tres formas.
+    for e in (".jpeg", ".jpg", ".png"):
+        if nome.lower().endswith(e):
+            return nome[:-len(e)]
+    return nome
+
 def pb(im):
     return ImageEnhance.Contrast(ImageOps.grayscale(im).convert("RGB")).enhance(1.03)
 
@@ -98,7 +118,7 @@ if __name__ == "__main__":
     rel=[]
     for g,arq,nome,cargo in PESSOAS:
         im, fator, ratio = corta(arq)
-        b = g[:4].lower()+"-"+arq.replace(".jpeg","")
+        b = g[:4].lower()+"-"+sem_ext(arq)
         pb(im).save(os.path.join(SAI, b+".jpg"), quality=88, optimize=True)
         rel.append((g,nome,cargo,b,round(fator,2),round(ratio,2)))
         marca = "amplia" if fator>1.05 else "reduz "
