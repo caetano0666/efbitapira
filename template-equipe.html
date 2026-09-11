@@ -62,6 +62,12 @@
   font-size:clamp(15.5px,1.5vw,17.5px);line-height:1.28;letter-spacing:-.012em;
   color:var(--texto);text-wrap:wrap;margin:14px 0 3px;
 }
+/* A partir de 920px os nomes descem para 15px. Em 17,5px o nome da
+   Dra. Caroline Prado de Souza Xavier media 291px num cartao de 259px e
+   quebrava sozinho, e o cargo dela descia uma linha em relacao ao do
+   Dr. Mauro, ao lado. Em 15px cabe. Abaixo de 920px nada muda.
+   Decisao do dono do projeto, 10/09/2026, entre tres opcoes testadas. */
+@media (min-width:920px){.eq-pessoa__n{font-size:15px}}
 .eq-pessoa__c{font-size:13.5px;line-height:1.4;color:var(--texto-suave);margin:0}
 
 /* uma nota do grupo, na mesma escala e na mesma cor do cargo */
