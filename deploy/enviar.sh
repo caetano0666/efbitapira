@@ -51,17 +51,29 @@ fi
 mapfile -t remover < <(grep -vE '^\s*(#|$)' "$aqui/remover.txt" || true)
 
 # ------------------------------------------------------------
-# PDF QUE SAIU DO REPOSITORIO SAI DO SERVIDOR TAMBEM
+# NA PRODUCAO SO FICA PDF AUTORIZADO
 #
-# Quando alguem exclui um documento pelo painel, o PDF deixa de
-# existir no repositorio. Sem isto ele continuaria no ar, e a tela
-# promete o contrario.
+# Autorizado e o que o documentos.json marca como publicado. Quem
+# apura isso e o montar-lista.sh, e o resultado ja esta em
+# arquivos[]. Aqui so se compara.
+#
+# Ate 14/09/2026 a comparacao era contra a existencia do arquivo no
+# disco. Isso cobria exclusao e nao cobria despublicacao: o PDF
+# despublicado continuava no repositorio, logo nao era orfao, logo
+# ficava no ar por endereco direto enquanto a pagina jurava que ele
+# tinha saido. Agora os dois casos caem no mesmo mecanismo.
 #
 # Isto NAO e espelhamento. Alcanca uma unica pasta,
 # transparencia/arquivos, e so arquivos .pdf. Nenhuma outra pasta
 # e sequer listada, e o .htaccess, a home e a doacao nao podem ser
 # tocados por este caminho.
 # ------------------------------------------------------------
+autorizado() {
+  local alvo="$1" item
+  for item in "${arquivos[@]}"; do [ "$item" = "$alvo" ] && return 0; done
+  return 1
+}
+
 orfaos=()
 listar="$(mktemp)"
 {
@@ -77,7 +89,7 @@ while IFS= read -r remoto; do
   nome="$(basename "${remoto%/}")"
   # so pdf, so nome simples. qualquer outra coisa e ignorada.
   [[ "$nome" =~ ^[a-z0-9][a-z0-9._-]*\.pdf$ ]] || continue
-  [ -f "$raiz/transparencia/arquivos/$nome" ] && continue
+  autorizado "transparencia/arquivos/$nome" && continue
   orfaos+=("transparencia/arquivos/$nome")
 done < <(lftp -f "$listar" 2>/dev/null || true)
 rm -f "$listar"
@@ -124,7 +136,7 @@ if [ "${#remover[@]}" -gt 0 ]; then
   for alvo in "${remover[@]}"; do echo "   xx $alvo"; done
 fi
 if [ "${#orfaos[@]}" -gt 0 ]; then
-  echo "ENVIO: ${#orfaos[@]} PDFs que sairam do repositorio e saem do servidor"
+  echo "ENVIO: ${#orfaos[@]} PDFs nao autorizados que saem do servidor"
   for alvo in "${orfaos[@]}"; do echo "   xx $alvo"; done
 fi
 
