@@ -180,12 +180,13 @@ figuras, peso_gal = [], 0
 for k, (arq, alt) in enumerate(GALERIA):
     dados, (gw, gh) = inteira(arq)
     peso_gal += len(dados)
+    lazy = '' if k == 0 else 'loading="lazy" '
     figuras.append(
         '<figure class="gal__i" role="listitem">'
         f'<button class="gal__b" type="button" aria-label="Ampliar: {alt}">'
         f'<img src="data:image/jpeg;base64,{base64.b64encode(dados).decode()}" '
         f'alt="{alt}" width="{gw}" height="{gh}" '
-        f'{"" if k == 0 else "loading=\"lazy\" "}decoding="async">'
+        f'{lazy}decoding="async">'
         '</button></figure>'
     )
 if '<!--GALERIA-->' not in html:
