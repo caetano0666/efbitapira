@@ -28,7 +28,7 @@
                     "arquivo": "/transparencia/arquivos/zz-teste.pdf",
                     "titulo": "zz-teste",
                     "descricao": "zzz-teste",
-                    "publicado": true,
+                    "publicado": false,
                     "ordem": 1
                 }
             ]
